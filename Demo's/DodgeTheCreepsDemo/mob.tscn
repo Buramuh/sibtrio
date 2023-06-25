@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://c8oou84cwbg1"]
+
+[ext_resource type="Texture2D" uid="uid://bq6o840qoesyc" path="res://art/enemyFlyingAlt_1.png" id="1_1bbdf"]
+[ext_resource type="Script" path="res://mob.gd" id="1_4wlv2"]
+[ext_resource type="Texture2D" uid="uid://d25q3383rd57e" path="res://art/enemyFlyingAlt_2.png" id="2_kcbvi"]
+[ext_resource type="Texture2D" uid="uid://b0erp2hnyei87" path="res://art/enemySwimming_1.png" id="3_g764m"]
+[ext_resource type="Texture2D" uid="uid://bah8c2cgcu1f0" path="res://art/enemySwimming_2.png" id="4_305da"]
+[ext_resource type="Texture2D" uid="uid://dgu6qp4h6ibj7" path="res://art/enemyWalking_1.png" id="5_pcc6l"]
+[ext_resource type="Texture2D" uid="uid://bon4xoe3dsp5q" path="res://art/enemyWalking_2.png" id="6_evedf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_45r3s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1bbdf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kcbvi")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_g764m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_305da")
+}],
+"loop": true,
+"name": &"swimming",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_pcc6l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_evedf")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lio2j"]
+radius = 35.43
+height = 71.89
+
+[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+position = Vector2(415, -342)
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_4wlv2")
+metadata/_edit_group_ = true
+metadata/_edit_vertical_guides_ = [38.0]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_45r3s")
+animation = &"swimming"
+frame_progress = 0.453273
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_lio2j")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="EnemyFlyingAlt1" type="Sprite2D" parent="."]
+position = Vector2(162, 674)
+texture = ExtResource("1_1bbdf")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
