@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cu0sx0egxagf3"]
+[gd_scene load_steps=18 format=3 uid="uid://cu0sx0egxagf3"]
 
 [ext_resource type="Script" path="res://actors/mob.gd" id="1_cqvp4"]
 [ext_resource type="Texture2D" uid="uid://cnuk705jwx5e7" path="res://art/mob/mob1/1.png" id="1_lbxxc"]
@@ -71,6 +71,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gcbdk"]
 size = Vector2(45, 32)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2br7e"]
+radius = 7.0
+height = 22.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_73luk"]
+radius = 29.0
+height = 76.0
+
 [node name="Mob1" type="RigidBody2D" groups=["mobs"]]
 collision_mask = 0
 gravity_scale = 0.0
@@ -80,15 +88,32 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_y2ddn")
-animation = &"mob3"
+animation = &"mob1"
+frame_progress = 0.169512
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+[node name="ShapeMob3" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0.5, -1)
 rotation = 3.14159
 shape = SubResource("RectangleShape2D_gcbdk")
+disabled = true
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-3.5, -1)
 rotation = 3.14159
+
+[node name="ShapeMob2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, -2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_2br7e")
+disabled = true
+
+[node name="ShapeMob1" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(-4, 10)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_73luk")
+disabled = true
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
