@@ -106,6 +106,7 @@ gravity_scale = 0.0
 max_contacts_reported = 1
 contact_monitor = true
 lock_rotation = true
+linear_damp = 13.428
 script = ExtResource("1_usu0d")
 metadata/_edit_group_ = true
 

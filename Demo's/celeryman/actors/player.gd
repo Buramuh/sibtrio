@@ -6,6 +6,10 @@ var screen_size
 var velocity_last
 signal hit
 
+var SPEED = 1500
+var DASH = 10000
+var THRESHOLD = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size #Why not var screen_size??
@@ -16,40 +20,43 @@ func _ready():
 func _process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
+		apply_force(Vector2(SPEED, 0))
 	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
+		apply_force(Vector2(-SPEED, 0))
 	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
+		apply_force(Vector2(0, SPEED))
 	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
+		apply_force(Vector2(0, -SPEED))
+	if Input.is_action_pressed("dash"):
+		var vel = linear_velocity.normalized()
+		apply_force(Vector2(vel.x*DASH, vel.y*DASH))
 	
-	if velocity.length() > 0:
+	if linear_velocity.length() > THRESHOLD:
 		$AnimatedSprite2D.play() # $ is shorthand for get_node()
 	else:
 		$AnimatedSprite2D.stop()
-	linear_velocity = velocity.normalized() * speed
+	#linear_velocity = velocity.normalized() * speed
 	
 	#position += velocity * delta
 	#position = position.clamp(Vector2.ZERO, screen_size)
 	
-	if velocity.x != 0:
+	if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
 		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_h = velocity.x > 0
-	elif velocity.y < 0:
+		$AnimatedSprite2D.flip_h = linear_velocity.x > 0
+	elif linear_velocity.y < -THRESHOLD:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_h = false
-	elif velocity.y > 0:
+	elif linear_velocity.y > THRESHOLD:
 		$AnimatedSprite2D.animation = "down"
 		$AnimatedSprite2D.flip_h = false
 	else:
-		if velocity_last.x != 0:
+		if velocity_last.x > THRESHOLD or velocity_last.x < -THRESHOLD:
 			$AnimatedSprite2D.animation = "idle_walk"
-		elif velocity_last.y > 0:
+		elif velocity_last.y > THRESHOLD:
 			$AnimatedSprite2D.animation = "idle_down"
-		elif velocity_last.y < 0:
+		elif velocity_last.y < -THRESHOLD:
 			$AnimatedSprite2D.animation = "idle_up"
-	velocity_last = velocity
+	velocity_last = linear_velocity
 	
 	if reset_state == RESET_SHOW:
 		reset_show()
@@ -86,6 +93,8 @@ func start(pos):
 	$AnimatedSprite2D.animation = "down"
 	reset_pos = pos
 	reset_state = RESET_TELEPORT
+	# Wakes up the player physics. Otherwise _integrate_forces() never happens.
+	apply_force(Vector2.ZERO) 
 	
 	
 func reset_teleport(state):

@@ -89,7 +89,7 @@ metadata/_edit_group_ = true
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_y2ddn")
 animation = &"mob1"
-frame_progress = 0.169512
+frame_progress = 0.88577
 
 [node name="ShapeMob3" type="CollisionShape2D" parent="."]
 visible = false
