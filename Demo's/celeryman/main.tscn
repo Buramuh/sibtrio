@@ -94,6 +94,6 @@ shape = SubResource("RectangleShape2D_lo8of")
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="disable_weird" from="HUD" to="." method="_on_hud_disable_weird"]
+[connection signal="enable_weird" from="HUD" to="." method="_on_hud_enable_weird"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
-[connection signal="weird_disabled" from="HUD" to="." method="_on_hud_weird_disabled"]
-[connection signal="weird_enabled" from="HUD" to="." method="_on_hud_weird_enabled"]

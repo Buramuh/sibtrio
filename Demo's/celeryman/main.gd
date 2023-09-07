@@ -72,7 +72,7 @@ func _on_mob_timer_timeout():
 
 
 
-func _on_hud_weird_enabled():
+func _on_hud_enable_weird():
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	for mob in mobs:
 		mob.collision_mask = 1
@@ -80,7 +80,7 @@ func _on_hud_weird_enabled():
 
 
 
-func _on_hud_weird_disabled():
+func _on_hud_disable_weird():
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	for mob in mobs:
 		mob.collision_mask = 0
