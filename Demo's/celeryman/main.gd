@@ -26,7 +26,7 @@ func new_game():
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	$HUD.update_score(score)
-	$HUD.show_and_hide_message("Get Ready", 2, false)
+	$HUD.show_and_hide_message("Get Ready", 2)
 	
 	
 	

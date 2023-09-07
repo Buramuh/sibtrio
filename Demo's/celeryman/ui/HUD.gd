@@ -39,16 +39,15 @@ func hide_message(seconds: float):
 	$MessageTimer.start()
 
 
-func show_and_hide_message(text: String, seconds: float, wait: bool):
+func show_and_hide_message(text: String, seconds: float):
 	show_message(text)
 	hide_message(seconds)
-	if wait:
-		await $MessageTimer.timeout # Waits for timer timeout signal to trigger/emit
 
 
 func show_game_over():
-	show_and_hide_message("Oh, you died.", 2, true)
-	show_and_hide_message("You're locked in.", 1, true)
+	show_and_hide_message("Oh, you died.", 2)
+	await $MessageTimer.timeout
+	show_message("You're locked in.")
 	$StartButton.show()
 
 
