@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://cu0sx0egxagf3"]
 
+[ext_resource type="Script" path="res://actors/mob.gd" id="1_cqvp4"]
 [ext_resource type="Texture2D" uid="uid://cnuk705jwx5e7" path="res://art/mob/mob1/1.png" id="1_lbxxc"]
-[ext_resource type="Script" path="res://mob.gd" id="1_snnrh"]
 [ext_resource type="Texture2D" uid="uid://b5vw1k3qd5253" path="res://art/mob/mob1/2.png" id="2_rmqpl"]
 [ext_resource type="Texture2D" uid="uid://b8ia7uq2hc651" path="res://art/mob/mob1/3.png" id="3_0hmln"]
 [ext_resource type="Texture2D" uid="uid://bwoq1kpabqxqq" path="res://art/mob/mob1/4.png" id="4_3lo0b"]
@@ -74,14 +74,13 @@ size = Vector2(45, 32)
 [node name="Mob1" type="RigidBody2D" groups=["mobs"]]
 collision_mask = 0
 gravity_scale = 0.0
-script = ExtResource("1_snnrh")
+script = ExtResource("1_cqvp4")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_y2ddn")
-animation = &"mob2"
-frame_progress = 0.60625
+animation = &"mob3"
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -1)

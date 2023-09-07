@@ -1,7 +1,7 @@
 @icon("res://art/icon/player.png") #huh?? what does this do??
 
-extends Area2D
-@export var speed = 150 # How fast the player will move (pixels/sec).
+extends RigidBody2D
+@export var speed = 175 # How fast the player will move (pixels/sec).
 var screen_size 
 var velocity_last
 signal hit
@@ -10,7 +10,6 @@ signal hit
 func _ready():
 	screen_size = get_viewport_rect().size #Why not var screen_size??
 	velocity_last = Vector2.ZERO
-	hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,13 +25,13 @@ func _process(delta):
 		velocity.y -= 1
 	
 	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
 		$AnimatedSprite2D.play() # $ is shorthand for get_node()
 	else:
 		$AnimatedSprite2D.stop()
+	linear_velocity = velocity.normalized() * speed
 	
-	position += velocity * delta
-	position = position.clamp(Vector2.ZERO, screen_size)
+	#position += velocity * delta
+	#position = position.clamp(Vector2.ZERO, screen_size)
 	
 	if velocity.x != 0:
 		$AnimatedSprite2D.animation = "walk"
@@ -52,16 +51,60 @@ func _process(delta):
 			$AnimatedSprite2D.animation = "idle_up"
 	velocity_last = velocity
 	
-	
+	if reset_state == RESET_SHOW:
+		reset_show()
+	elif reset_state >= RESET_DELAY:
+		reset_state += 1
+
 
 
 func _on_body_entered(body):
-	hide() # Player disappears after being hit.
+	if body in get_tree().get_nodes_in_group("mobs"):
+		stop()
+
+
+# Resetting
+#-------------------------------------------------------------------------------
+var reset_pos
+
+var RESET_TELEPORT = 0
+var RESET_DELAY = 1
+var RESET_SHOW = 2
+var RESET_DONE = 3
+var reset_state = RESET_DONE
+
+var reset_rotation = false
+
+
+func stop():
 	hit.emit()
-	# Must be deferred as we can't change physics properties on a physics callback.
+	hide()
 	$CollisionShape2D.set_deferred("disabled", true)
 
+
 func start(pos):
-	position = pos
+	$AnimatedSprite2D.animation = "down"
+	reset_pos = pos
+	reset_state = RESET_TELEPORT
+	
+	
+func reset_teleport(state):
+	state.transform = Transform2D(0, reset_pos)
+	reset_state = RESET_DELAY
+
+func reset_show():
 	show()
-	$CollisionShape2D.disabled = false
+	$CollisionShape2D.set_deferred("disabled", false)
+	reset_state = RESET_DONE
+	
+	
+func start_reset_rotation():
+	reset_rotation = true
+
+func _integrate_forces(state):
+	if reset_state == RESET_TELEPORT:
+		reset_teleport(state)
+	if reset_rotation:
+		state.transform = Transform2D(0, position)
+		reset_rotation = false
+

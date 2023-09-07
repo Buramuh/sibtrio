@@ -2,7 +2,8 @@ extends CanvasLayer
 
 # Notifies `Main` node that the button has been pressed
 signal start_game
-
+signal weird_enabled
+signal weird_disabled
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -38,3 +39,31 @@ func _on_message_timer_timeout():
 func _on_start_button_pressed():
 	$StartButton.hide()
 	start_game.emit()
+
+
+
+var physics = false
+
+func _on_weird_button_pressed():
+	physics = !physics
+	if physics:
+		$WeirdButton.text = " x Weird physics"
+		weird_enabled.emit()
+		#var mobs = get_tree().get_nodes_in_group("mobs")
+		#for mob in mobs:
+		#	mob.collision_mask = 1
+		
+	else:
+		$WeirdButton.text = "    Weird physics"
+		weird_disabled.emit()
+		#var mobs = get_tree().get_nodes_in_group("mobs")
+		#for mob in mobs:
+		#	mob.collision_mask = 0
+		
+
+
+#var physics = false
+
+#func _on_weird_button_pressed():
+	#var physics = true
+	#pass 

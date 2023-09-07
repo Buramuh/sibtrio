@@ -1,25 +1,40 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjieui3o6ucbi"]
+[gd_scene load_steps=12 format=3 uid="uid://bjieui3o6ucbi"]
 
-[ext_resource type="PackedScene" uid="uid://tr2effoof52l" path="res://player.tscn" id="1_3glji"]
+[ext_resource type="PackedScene" uid="uid://tr2effoof52l" path="res://actors/player.tscn" id="1_3glji"]
 [ext_resource type="Script" path="res://main.gd" id="1_qg3oa"]
-[ext_resource type="PackedScene" uid="uid://cu0sx0egxagf3" path="res://mob.tscn" id="2_3in1u"]
-[ext_resource type="PackedScene" uid="uid://ch7yo8kbbm7b4" path="res://hud.tscn" id="4_0n2l5"]
+[ext_resource type="PackedScene" uid="uid://cu0sx0egxagf3" path="res://actors/mob.tscn" id="2_3in1u"]
+[ext_resource type="Texture2D" uid="uid://y4wcrsqrsa7b" path="res://art/background/back1.png" id="3_lxxe7"]
+[ext_resource type="Script" path="res://MobPath.gd" id="5_7rn7j"]
+[ext_resource type="PackedScene" uid="uid://ch7yo8kbbm7b4" path="res://ui/hud.tscn" id="6_ii03r"]
 
 [sub_resource type="Curve2D" id="Curve2D_xyif2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1152, 0, 0, 0, 0, 0, 1152, 648, 0, 0, 0, 0, 0, 648, 0, 0, 0, 0, 0, 0)
-}
-point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1k4b"]
+size = Vector2(64, 921)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_diwby"]
+size = Vector2(64, 640)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_773r4"]
+size = Vector2(64, 322.562)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lo8of"]
+size = Vector2(64, 152)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_qg3oa")
 mob_scene = ExtResource("2_3in1u")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -40.0
+offset_top = -313.0
+offset_right = 960.0
+offset_bottom = 487.0
+scale = Vector2(2, 2)
+texture = ExtResource("3_lxxe7")
 
 [node name="Player" parent="." instance=ExtResource("1_3glji")]
+position = Vector2(-80, 0)
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -31,17 +46,54 @@ wait_time = 2.0
 one_shot = true
 
 [node name="StartPosition" type="Marker2D" parent="."]
-position = Vector2(240, 450)
+position = Vector2(960, 720)
 
 [node name="MobPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_xyif2")
+script = ExtResource("5_7rn7j")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(48, 128)
+rotation = -0.675258
 
-[node name="HUD" parent="." instance=ExtResource("4_0n2l5")]
+[node name="Walls" type="StaticBody2D" parent="."]
+position = Vector2(652, 544)
+collision_layer = 2
+collision_mask = 2
+
+[node name="Walls@CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+shape = SubResource("RectangleShape2D_e1k4b")
+
+[node name="Walls@CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(617, -8)
+shape = SubResource("RectangleShape2D_e1k4b")
+
+[node name="Walls@CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2(324, -244)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_diwby")
+
+[node name="Walls@CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
+position = Vector2(503.56, 369)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_773r4")
+
+[node name="Walls@CollisionShape2D5" type="CollisionShape2D" parent="Walls"]
+position = Vector2(112.719, 369)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_773r4")
+
+[node name="Walls@CollisionShape2D6" type="CollisionShape2D" parent="Walls"]
+position = Vector2(304, 381)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_lo8of")
+
+[node name="HUD" parent="." instance=ExtResource("6_ii03r")]
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="weird_disabled" from="HUD" to="." method="_on_hud_weird_disabled"]
+[connection signal="weird_enabled" from="HUD" to="." method="_on_hud_weird_enabled"]
