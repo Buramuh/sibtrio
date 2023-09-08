@@ -7,8 +7,17 @@ var velocity_last
 signal hit
 
 var SPEED = 1500
-var DASH = 10000
+var DASH = 45000
 var THRESHOLD = 1
+
+var can_dash = true
+
+func dash_cooldown(seconds):
+	$DashTimer.wait_time =seconds
+	$DashTimer.start()	
+	can_dash = false	
+	await $DashTimer.timeout
+	can_dash = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,23 +28,46 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var velocity = Vector2.ZERO # The player's movement vector.
-	if Input.is_action_pressed("move_right"):
-		apply_force(Vector2(SPEED, 0))
-	if Input.is_action_pressed("move_left"):
-		apply_force(Vector2(-SPEED, 0))
-	if Input.is_action_pressed("move_down"):
-		apply_force(Vector2(0, SPEED))
-	if Input.is_action_pressed("move_up"):
-		apply_force(Vector2(0, -SPEED))
+	var speed2 = sqrt((SPEED**2) / 2)
+	
+	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_down"):
+		apply_force(Vector2(speed2, speed2))
+	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_up"):
+		apply_force(Vector2(speed2, -speed2))
+	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_down"):
+		apply_force(Vector2(-speed2, speed2))
+	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
+		apply_force(Vector2(-speed2, -speed2))
+	
+	
+	
 	if Input.is_action_pressed("dash"):
-		var vel = linear_velocity.normalized()
-		apply_force(Vector2(vel.x*DASH, vel.y*DASH))
+		if can_dash:
+			var vel = linear_velocity.normalized()
+			apply_force(Vector2(vel.x*DASH, vel.y*DASH))
+			dash_cooldown(0.5)
+	
+	
+	if Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
+		apply_force(Vector2(SPEED, 0))
+	if Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
+		apply_force(Vector2(-SPEED, 0))
+	if Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
+		apply_force(Vector2(0, SPEED))
+	if Input.is_action_pressed("move_up") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
+		apply_force(Vector2(0, -SPEED))
+	
+	
+	
 	
 	if linear_velocity.length() > THRESHOLD:
 		$AnimatedSprite2D.play() # $ is shorthand for get_node()
 	else:
 		$AnimatedSprite2D.stop()
 	#linear_velocity = velocity.normalized() * speed
+	
+
+	
 	
 	#position += velocity * delta
 	#position = position.clamp(Vector2.ZERO, screen_size)

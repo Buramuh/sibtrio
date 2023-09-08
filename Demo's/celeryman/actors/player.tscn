@@ -119,4 +119,7 @@ animation = &"down"
 position = Vector2(0, 17)
 shape = SubResource("CapsuleShape2D_pxldr")
 
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.559
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
