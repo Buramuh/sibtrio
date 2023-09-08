@@ -1,16 +1,22 @@
-[gd_scene load_steps=19 format=3 uid="uid://tr2effoof52l"]
+[gd_scene load_steps=25 format=3 uid="uid://tr2effoof52l"]
 
 [ext_resource type="Script" path="res://actors/player.gd" id="1_usu0d"]
+[ext_resource type="Texture2D" uid="uid://cjd526nnijwge" path="res://art/player/dash_down/1.png" id="2_ei1x3"]
+[ext_resource type="Texture2D" uid="uid://cj8qkwx242qi" path="res://art/player/dash_side/1.png" id="2_idm7a"]
 [ext_resource type="Texture2D" uid="uid://cr1k5ousp56tx" path="res://art/player/down/2.png" id="2_lyp26"]
+[ext_resource type="Texture2D" uid="uid://dk46j6r705vgi" path="res://art/player/dash_side/2.png" id="3_48asf"]
 [ext_resource type="Texture2D" uid="uid://b8udstj5t1ev2" path="res://art/player/down/3.png" id="3_gnhso"]
 [ext_resource type="Texture2D" uid="uid://b1yc41hawf4sh" path="res://art/player/down/1.png" id="3_qrwo2"]
+[ext_resource type="Texture2D" uid="uid://b0ahq80ol0dbr" path="res://art/player/dash_down/2.png" id="3_yls2m"]
 [ext_resource type="Texture2D" uid="uid://h308j1gfijy7" path="res://art/player/down/4.png" id="4_thusr"]
 [ext_resource type="Texture2D" uid="uid://324twxi3i040" path="res://art/player/up/1.png" id="5_f2ew3"]
 [ext_resource type="Texture2D" uid="uid://cf0nvtve62u" path="res://art/player/down/0.png" id="6_4svcf"]
+[ext_resource type="Texture2D" uid="uid://by0lme0ynnwg7" path="res://art/player/dash_up/1.png" id="6_ahu3j"]
 [ext_resource type="Texture2D" uid="uid://d3pyvlug00a10" path="res://art/player/walk/0.png" id="6_jf4vd"]
 [ext_resource type="Texture2D" uid="uid://tiduo5segbkc" path="res://art/player/up/2.png" id="6_vrabb"]
 [ext_resource type="Texture2D" uid="uid://blvro35ymfqrv" path="res://art/player/up/0.png" id="7_exwxk"]
 [ext_resource type="Texture2D" uid="uid://86sbpcu4et7e" path="res://art/player/up/3.png" id="7_jfe6q"]
+[ext_resource type="Texture2D" uid="uid://btsvej51m6fgn" path="res://art/player/dash_up/2.png" id="7_wvyxc"]
 [ext_resource type="Texture2D" uid="uid://c752celt6pxh6" path="res://art/player/up/4.png" id="8_g5krd"]
 [ext_resource type="Texture2D" uid="uid://8rhekys1mrdh" path="res://art/player/walk/1.png" id="10_oi3pl"]
 [ext_resource type="Texture2D" uid="uid://bj1byhoe21q5" path="res://art/player/walk/2.png" id="11_m8vde"]
@@ -19,6 +25,39 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_pasc1"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ei1x3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yls2m")
+}],
+"loop": false,
+"name": &"dash_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_idm7a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_48asf")
+}],
+"loop": false,
+"name": &"dash_sideways",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ahu3j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_wvyxc")
+}],
+"loop": true,
+"name": &"dash_up",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_qrwo2")
@@ -106,20 +145,22 @@ gravity_scale = 0.0
 max_contacts_reported = 1
 contact_monitor = true
 lock_rotation = true
-linear_damp = 13.428
+linear_damp = 13.5
 script = ExtResource("1_usu0d")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_pasc1")
-animation = &"down"
+animation = &"dash_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 17)
 shape = SubResource("CapsuleShape2D_pxldr")
 
-[node name="DashTimer" type="Timer" parent="."]
+[node name="DashCooldown" type="Timer" parent="."]
 wait_time = 0.559
+
+[node name="DashTimer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

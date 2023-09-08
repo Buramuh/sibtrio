@@ -1,34 +1,55 @@
-@icon("res://art/icon/player.png") #huh?? what does this do??
-
 extends RigidBody2D
-@export var speed = 175 # How fast the player will move (pixels/sec).
-var screen_size 
-var velocity_last
+
+
+
+# --- Signals ---
 signal hit
 
+
+
+# --- Variables ---
+var screen_size 
+var velocity_last
+
 var SPEED = 1500
-var DASH = 45000
-var THRESHOLD = 1
+var DASH = 65000
+var THRESHOLD = 0.5
 
 var can_dash = true
+var doing_dash = false
 
-func dash_cooldown(seconds):
-	$DashTimer.wait_time =seconds
-	$DashTimer.start()	
-	can_dash = false	
+
+
+func dash_cooldown_and_timer(wait,timer):
+	$DashCooldown.wait_time = wait
+	$DashTimer.wait_time = timer
+	$DashCooldown.start()
+	$DashTimer.start()
+	can_dash = false
+	doing_dash = true
 	await $DashTimer.timeout
+	doing_dash = false
+	await $DashCooldown.timeout
 	can_dash = true
 
-# Called when the node enters the scene tree for the first time.
+
+
+# --- Standard ---
 func _ready():
 	screen_size = get_viewport_rect().size #Why not var screen_size??
 	velocity_last = Vector2.ZERO
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta): #'delta' is the elapsed time since the previous frame.
 	var velocity = Vector2.ZERO # The player's movement vector.
 	var speed2 = sqrt((SPEED**2) / 2)
+	
+	
+	if linear_velocity.length() > THRESHOLD:
+		$AnimatedSprite2D.play() # $ is shorthand for get_node()
+	else:
+		$AnimatedSprite2D.stop()
+		
 	
 	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_down"):
 		apply_force(Vector2(speed2, speed2))
@@ -38,15 +59,6 @@ func _process(delta):
 		apply_force(Vector2(-speed2, speed2))
 	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
 		apply_force(Vector2(-speed2, -speed2))
-	
-	
-	
-	if Input.is_action_pressed("dash"):
-		if can_dash:
-			var vel = linear_velocity.normalized()
-			apply_force(Vector2(vel.x*DASH, vel.y*DASH))
-			dash_cooldown(0.5)
-	
 	
 	if Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
 		apply_force(Vector2(SPEED, 0))
@@ -58,37 +70,39 @@ func _process(delta):
 		apply_force(Vector2(0, -SPEED))
 	
 	
+	if Input.is_action_pressed("dash"):
+		if can_dash:
+			doing_dash = true
+			var vel = linear_velocity.normalized()
+			apply_force(Vector2(vel.x*DASH, vel.y*DASH))
+			if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
+				$AnimatedSprite2D.animation = "dash_sideways"
+			elif linear_velocity.y < -THRESHOLD:
+				$AnimatedSprite2D.animation = "dash_up"
+			elif linear_velocity.y > THRESHOLD:
+				$AnimatedSprite2D.animation = "dash_down"
+			dash_cooldown_and_timer(0.5, 0.3)
 	
 	
-	if linear_velocity.length() > THRESHOLD:
-		$AnimatedSprite2D.play() # $ is shorthand for get_node()
-	else:
-		$AnimatedSprite2D.stop()
-	#linear_velocity = velocity.normalized() * speed
-	
-
-	
-	
-	#position += velocity * delta
-	#position = position.clamp(Vector2.ZERO, screen_size)
-	
-	if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
-		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_h = linear_velocity.x > 0
-	elif linear_velocity.y < -THRESHOLD:
-		$AnimatedSprite2D.animation = "up"
-		$AnimatedSprite2D.flip_h = false
-	elif linear_velocity.y > THRESHOLD:
-		$AnimatedSprite2D.animation = "down"
-		$AnimatedSprite2D.flip_h = false
-	else:
-		if velocity_last.x > THRESHOLD or velocity_last.x < -THRESHOLD:
-			$AnimatedSprite2D.animation = "idle_walk"
-		elif velocity_last.y > THRESHOLD:
-			$AnimatedSprite2D.animation = "idle_down"
-		elif velocity_last.y < -THRESHOLD:
-			$AnimatedSprite2D.animation = "idle_up"
+	if !doing_dash:
+		if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
+			$AnimatedSprite2D.animation = "walk"
+			$AnimatedSprite2D.flip_h = linear_velocity.x > 0
+		elif linear_velocity.y < -THRESHOLD:
+			$AnimatedSprite2D.animation = "up"
+			$AnimatedSprite2D.flip_h = false
+		elif linear_velocity.y > THRESHOLD:
+			$AnimatedSprite2D.animation = "down"
+			$AnimatedSprite2D.flip_h = false
+		else:
+			if velocity_last.x > THRESHOLD or velocity_last.x < -THRESHOLD:
+				$AnimatedSprite2D.animation = "idle_walk"
+			elif velocity_last.y > THRESHOLD:
+				$AnimatedSprite2D.animation = "idle_down"
+			elif velocity_last.y < -THRESHOLD:
+				$AnimatedSprite2D.animation = "idle_up"
 	velocity_last = linear_velocity
+	
 	
 	if reset_state == RESET_SHOW:
 		reset_show()
