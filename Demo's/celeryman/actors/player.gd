@@ -11,9 +11,10 @@ signal hit
 var screen_size 
 var velocity_last
 
+
 var SPEED = 1500
 var DASH = 65000
-var THRESHOLD = 0.5
+var THRESHOLD = 50 
 
 var can_dash = true
 var doing_dash = false
@@ -75,13 +76,14 @@ func _process(delta): #'delta' is the elapsed time since the previous frame.
 			doing_dash = true
 			var vel = linear_velocity.normalized()
 			apply_force(Vector2(vel.x*DASH, vel.y*DASH))
+			dash_cooldown_and_timer(0.5, 0.3)
 			if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
 				$AnimatedSprite2D.animation = "dash_sideways"
 			elif linear_velocity.y < -THRESHOLD:
 				$AnimatedSprite2D.animation = "dash_up"
 			elif linear_velocity.y > THRESHOLD:
 				$AnimatedSprite2D.animation = "dash_down"
-			dash_cooldown_and_timer(0.5, 0.3)
+			
 	
 	
 	if !doing_dash:
