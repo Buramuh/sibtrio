@@ -1,18 +1,20 @@
 extends Path2D
 
-var SIZE = 500
-var ORIGIN_X = 1920/2
-var ORIGIN_Y = 1080/2
-var NUM_POINTS = 32
+var WIDTH = 1920
+var HEIGHT = 1080
+var ORIGIN_X = WIDTH/2
+var ORIGIN_Y = HEIGHT/2
+var PAD = 50
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	curve = Curve2D.new()
-	for i in NUM_POINTS:
-		curve.add_point(Vector2(0, -SIZE).rotated((i / float(NUM_POINTS)) * TAU) + Vector2(ORIGIN_X, ORIGIN_Y))
-
-	# End the circle.
-	curve.add_point(Vector2(0, -SIZE) + Vector2(ORIGIN_X, ORIGIN_Y))
+	
+	curve.add_point(Vector2(-PAD		, -PAD		)) # Left-Top
+	curve.add_point(Vector2(WIDTH+PAD	, -PAD		)) # Right-Top
+	curve.add_point(Vector2(WIDTH+PAD	, HEIGHT+PAD)) # Right-Bottom
+	curve.add_point(Vector2(-PAD		, HEIGHT+PAD)) # Left-Bottom
+	curve.add_point(Vector2(-PAD		, -PAD		)) # Left-Top
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

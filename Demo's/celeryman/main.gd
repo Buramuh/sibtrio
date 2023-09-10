@@ -38,6 +38,19 @@ func _on_start_timer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
 
+
+var CENTER = Vector2(1920/2, 1080/2)
+func calc_direction_to_look_at(target, origin):
+	var dx = target.x - origin.x
+	var dy = target.y - origin.y
+	var direction = atan(dy/dx)
+	# atan doesn't know wether the angle needs to point left or right
+	# so the angle might need to be inverted, depending on dx
+	if dx < 0:
+		direction +=  PI
+	return direction
+
+
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
@@ -49,16 +62,14 @@ func _on_mob_timer_timeout():
 	var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
 	mob_spawn_location.progress_ratio = randf()
 
-	# Set the mob's direction perpendicular to the path direction.
-	var direction = mob_spawn_location.rotation + PI / 2
-
 	# Set the mob's position to a random location.
 	mob.position = mob_spawn_location.position
+	
+	# Set the mob's direction to look at center
+	var direction = calc_direction_to_look_at(CENTER, mob.position)
 
 	# Add some randomness to the direction. -> I tried to make them point to the middle
-	direction += randf_range(-PI/4,PI/4)
-	
-	
+	direction += randf_range(-PI/8,PI/8)
 	mob.rotation = direction
 
 	# Choose the velocity for the mob.
