@@ -1,17 +1,24 @@
 extends RigidBody2D
+class_name Mob
+
+
+
+# --- Exports ---
+enum Variant {PHANTOM, SNIPER, SUITCASE}
+@export var variant = Variant.PHANTOM
 
 
 
 # --- Standard ---
 func _ready():
 	var mob_types = $AnimatedSprite2D.sprite_frames.get_animation_names()
-	var mob_type = mob_types[randi() % mob_types.size()]
+	var mob_type = mob_types[variant]
 	var model_table = { # A dictionary / table # (key -> value) # value = table.get(key)
-		"mob1" : $ShapeMob1, # key : value
-		"mob2" : $ShapeMob2,
-		"mob3" : $ShapeMob3
+		Variant.PHANTOM : $ShapeMob1, # key : value
+		Variant.SNIPER : $ShapeMob2,
+		Variant.SUITCASE : $ShapeMob3
 	}
-	model_table.get(mob_type).disabled = false
+	model_table.get(variant).disabled = false
 	$AnimatedSprite2D.play(mob_type)
 
 

@@ -54,6 +54,7 @@ func calc_direction_to_look_at(target, origin):
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
+	mob.variant = randi() % Mob.Variant.size()
 	
 	if $HUD.physics:
 		mob.collision_mask = 1
