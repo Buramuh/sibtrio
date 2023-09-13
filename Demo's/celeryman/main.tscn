@@ -1,13 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://bjieui3o6ucbi"]
+[gd_scene load_steps=14 format=3 uid="uid://bjieui3o6ucbi"]
 
 [ext_resource type="PackedScene" uid="uid://tr2effoof52l" path="res://actors/player.tscn" id="1_3glji"]
 [ext_resource type="Script" path="res://main.gd" id="1_qg3oa"]
 [ext_resource type="PackedScene" uid="uid://cu0sx0egxagf3" path="res://actors/mob.tscn" id="2_3in1u"]
 [ext_resource type="Texture2D" uid="uid://y4wcrsqrsa7b" path="res://art/background/back1.png" id="3_lxxe7"]
-[ext_resource type="Script" path="res://MobPath.gd" id="5_7rn7j"]
+[ext_resource type="Script" path="res://EdgePath.gd" id="6_h3jmk"]
 [ext_resource type="PackedScene" uid="uid://ch7yo8kbbm7b4" path="res://ui/hud.tscn" id="6_ii03r"]
-
-[sub_resource type="Curve2D" id="Curve2D_xyif2"]
+[ext_resource type="Script" path="res://CirclePath.gd" id="7_prpiv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1k4b"]
 size = Vector2(64, 921)
@@ -20,6 +19,10 @@ size = Vector2(64, 322.562)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lo8of"]
 size = Vector2(64, 152)
+
+[sub_resource type="Curve2D" id="Curve2D_xyif2"]
+
+[sub_resource type="Curve2D" id="Curve2D_300pi"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_qg3oa")
@@ -47,14 +50,6 @@ one_shot = true
 
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(960, 720)
-
-[node name="MobPath" type="Path2D" parent="."]
-curve = SubResource("Curve2D_xyif2")
-script = ExtResource("5_7rn7j")
-
-[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
-position = Vector2(48, 128)
-rotation = -0.675258
 
 [node name="Walls" type="StaticBody2D" parent="."]
 position = Vector2(652, 544)
@@ -89,6 +84,20 @@ rotation = 1.5708
 shape = SubResource("RectangleShape2D_lo8of")
 
 [node name="HUD" parent="." instance=ExtResource("6_ii03r")]
+
+[node name="EdgePath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_xyif2")
+script = ExtResource("6_h3jmk")
+
+[node name="EdgeFollow" type="PathFollow2D" parent="EdgePath"]
+position = Vector2(48, 128)
+rotation = -0.675258
+
+[node name="CirclePath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_300pi")
+script = ExtResource("7_prpiv")
+
+[node name="CircleFollow" type="PathFollow2D" parent="CirclePath"]
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

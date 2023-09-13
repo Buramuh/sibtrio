@@ -60,7 +60,11 @@ func _on_mob_timer_timeout():
 		mob.collision_mask = 1
 
 	# Choose a random location on Path2D.
-	var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
+	var mob_spawn_location
+	if mob.variant == Mob.Variant.PHANTOM:
+		mob_spawn_location = get_node("CirclePath/CircleFollow")
+	else:
+		mob_spawn_location = get_node("EdgePath/EdgeFollow")
 	mob_spawn_location.progress_ratio = randf()
 
 	# Set the mob's position to a random location.
