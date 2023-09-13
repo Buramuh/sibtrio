@@ -71,10 +71,14 @@ func _on_mob_timer_timeout():
 	mob.position = mob_spawn_location.position
 	
 	# Set the mob's direction to look at center
-	var direction = calc_direction_to_look_at(CENTER, mob.position)
+	var direction
+	if mob.variant == Mob.Variant.SNIPER:
+		direction = calc_direction_to_look_at($Player.position, mob.position)
+	else:
+		direction = calc_direction_to_look_at(CENTER, mob.position)
+		direction += randf_range(-PI/8,PI/8)
 
 	# Add some randomness to the direction. -> I tried to make them point to the middle
-	direction += randf_range(-PI/8,PI/8)
 	mob.rotation = direction
 
 	# Choose the velocity for the mob.
