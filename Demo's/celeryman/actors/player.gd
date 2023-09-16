@@ -12,7 +12,7 @@ var screen_size
 var velocity_last
 
 
-var SPEED = 500
+var SPEED = 2
 var DASH = 65000
 var THRESHOLD = 50 
 
@@ -63,19 +63,16 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 		velocity = Vector2(0, -SPEED)
 	else:
 		velocity = Vector2(0, 0)
-	move_and_slide()
 	
+	var collision = move_and_collide(velocity)
+	if collision != null and collision.get_collider().is_in_group("mobs"):
+		stop()
 	
 	if reset_state == RESET_SHOW:
 		reset_show()
 	elif reset_state >= RESET_DELAY:
 		reset_state += 1
 
-
-
-func _on_body_entered(body):
-	if body in get_tree().get_nodes_in_group("mobs"):
-		stop()
 
 
 # Resetting
