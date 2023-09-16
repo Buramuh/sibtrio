@@ -58,26 +58,16 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 # Key Processing
 #-------------------------------------------------------------------------------
 func process_keys():
-	var speed2 = sqrt((SPEED**2) / 2)
-	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_down"):
-		velocity = Vector2(speed2, speed2)
-	elif Input.is_action_pressed("move_right") and Input.is_action_pressed("move_up"):
-		velocity = Vector2(speed2, -speed2)
-	elif Input.is_action_pressed("move_left") and Input.is_action_pressed("move_down"):
-		velocity = Vector2(-speed2, speed2)
-	elif Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
-		velocity = Vector2(-speed2, -speed2)
-
-	elif Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
-		velocity = Vector2(SPEED, 0)
-	elif Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
-		velocity = Vector2(-SPEED, 0)
-	elif Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
-		velocity = Vector2(0, SPEED)
-	elif Input.is_action_pressed("move_up") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
-		velocity = Vector2(0, -SPEED)
-	else:
-		velocity = Vector2(0, 0)
+	var move_velocity = Vector2()
+	if Input.is_action_pressed("move_right"):
+		move_velocity.x = 1
+	if Input.is_action_pressed("move_left"):
+		move_velocity.x = -1
+	if Input.is_action_pressed("move_down"):
+		move_velocity.y = 1
+	if Input.is_action_pressed("move_up"):
+		move_velocity.y = -1
+	velocity = move_velocity.normalized() * SPEED
 
 	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped():
 		$DashTimer.start()
