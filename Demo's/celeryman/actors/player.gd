@@ -15,25 +15,6 @@ var vec_move_last = Vector2.ZERO
 var SPEED = 2
 var DASH_MULTIPLIER = 6
 var DASH_DAMPENING = 0.9
-var THRESHOLD = 50 
-
-
-var can_dash = true
-var doing_dash = false
-
-
-
-func dash_cooldown_and_timer(wait,timer):
-	$DashCooldown.wait_time = wait
-	$DashTimer.wait_time = timer
-	$DashCooldown.start()
-	$DashTimer.start()
-	can_dash = false
-	doing_dash = true
-	await $DashTimer.timeout
-	doing_dash = false
-	await $DashCooldown.timeout
-	can_dash = true
 
 
 
