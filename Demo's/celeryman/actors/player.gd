@@ -86,7 +86,7 @@ func update_idle_animations(vec_move):
 
 
 func process_dash(vec_move):
-	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped():
+	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped() and vec_move != Vector2.ZERO:
 		$DashTimer.start()
 		$DashCooldown.start()
 		velocity = vec_move.normalized() * SPEED * DASH_MULTIPLIER
