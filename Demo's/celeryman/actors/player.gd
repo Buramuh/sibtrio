@@ -63,7 +63,7 @@ func process_keys():
 	update_idle_animations(vec_move)
 	process_dash(vec_move)
 	velocity = vec_move.normalized() * SPEED
-	vec_move_last = velocity
+	vec_move_last = vec_move
 
 
 func calc_move():
