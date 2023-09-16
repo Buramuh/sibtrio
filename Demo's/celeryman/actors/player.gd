@@ -67,27 +67,11 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 	var collision = move_and_collide(velocity)
 	if collision != null and collision.get_collider().is_in_group("mobs"):
 		stop()
-	
-	if reset_state == RESET_SHOW:
-		reset_show()
-	elif reset_state >= RESET_DELAY:
-		reset_state += 1
 
 
 
 # Resetting
 #-------------------------------------------------------------------------------
-var reset_pos
-
-var RESET_TELEPORT = 0
-var RESET_DELAY = 1
-var RESET_SHOW = 2
-var RESET_DONE = 3
-var reset_state = RESET_DONE
-
-var reset_rotation = false
-
-
 func stop():
 	hit.emit()
 	hide()
@@ -96,29 +80,6 @@ func stop():
 
 func start(pos):
 	$AnimatedSprite2D.animation = "down"
-	reset_pos = pos
-	reset_state = RESET_TELEPORT
-	# Wakes up the player physics. Otherwise _integrate_forces() never happens.
-	# apply_force(Vector2.ZERO)
-	
-	
-func reset_teleport(state):
-	state.transform = Transform2D(0, reset_pos)
-	reset_state = RESET_DELAY
-
-func reset_show():
+	position = pos
 	show()
 	$CollisionShape2D.set_deferred("disabled", false)
-	reset_state = RESET_DONE
-	
-	
-func start_reset_rotation():
-	reset_rotation = true
-
-func _integrate_forces(state):
-	if reset_state == RESET_TELEPORT:
-		reset_teleport(state)
-	if reset_rotation:
-		state.transform = Transform2D(0, position)
-		reset_rotation = false
-

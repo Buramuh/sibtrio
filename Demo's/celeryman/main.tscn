@@ -34,7 +34,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("3_lxxe7")
 
 [node name="Player" parent="." instance=ExtResource("1_3glji")]
-position = Vector2(774, 720)
+position = Vector2(-80, 0)
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
