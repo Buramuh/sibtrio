@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends CharacterBody2D
 
 
 
@@ -12,7 +12,7 @@ var screen_size
 var velocity_last
 
 
-var SPEED = 1500
+var SPEED = 500
 var DASH = 65000
 var THRESHOLD = 50 
 
@@ -41,69 +41,29 @@ func _ready():
 	velocity_last = Vector2.ZERO
 
 
-func _process(delta): #'delta' is the elapsed time since the previous frame.
-	var velocity = Vector2.ZERO # The player's movement vector.
+func _physics_process(delta): #'delta' is the elapsed time since the previous frame.
 	var speed2 = sqrt((SPEED**2) / 2)
 	
-	
-	if linear_velocity.length() > THRESHOLD:
-		$AnimatedSprite2D.play() # $ is shorthand for get_node()
-	else:
-		$AnimatedSprite2D.stop()
-		
-	
 	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_down"):
-		apply_force(Vector2(speed2, speed2))
-	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_up"):
-		apply_force(Vector2(speed2, -speed2))
-	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_down"):
-		apply_force(Vector2(-speed2, speed2))
-	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
-		apply_force(Vector2(-speed2, -speed2))
+		velocity = Vector2(speed2, speed2)
+	elif Input.is_action_pressed("move_right") and Input.is_action_pressed("move_up"):
+		velocity = Vector2(speed2, -speed2)
+	elif Input.is_action_pressed("move_left") and Input.is_action_pressed("move_down"):
+		velocity = Vector2(-speed2, speed2)
+	elif Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
+		velocity = Vector2(-speed2, -speed2)
 	
-	if Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
-		apply_force(Vector2(SPEED, 0))
-	if Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
-		apply_force(Vector2(-SPEED, 0))
-	if Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
-		apply_force(Vector2(0, SPEED))
-	if Input.is_action_pressed("move_up") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
-		apply_force(Vector2(0, -SPEED))
-	
-	
-	if Input.is_action_pressed("dash"):
-		if can_dash:
-			doing_dash = true
-			var vel = linear_velocity.normalized()
-			apply_force(Vector2(vel.x*DASH, vel.y*DASH))
-			dash_cooldown_and_timer(0.5, 0.3)
-			if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
-				$AnimatedSprite2D.animation = "dash_sideways"
-			elif linear_velocity.y < -THRESHOLD:
-				$AnimatedSprite2D.animation = "dash_up"
-			elif linear_velocity.y > THRESHOLD:
-				$AnimatedSprite2D.animation = "dash_down"
-			
-	
-	
-	if !doing_dash:
-		if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
-			$AnimatedSprite2D.animation = "walk"
-			$AnimatedSprite2D.flip_h = linear_velocity.x > 0
-		elif linear_velocity.y < -THRESHOLD:
-			$AnimatedSprite2D.animation = "up"
-			$AnimatedSprite2D.flip_h = false
-		elif linear_velocity.y > THRESHOLD:
-			$AnimatedSprite2D.animation = "down"
-			$AnimatedSprite2D.flip_h = false
-		else:
-			if velocity_last.x > THRESHOLD or velocity_last.x < -THRESHOLD:
-				$AnimatedSprite2D.animation = "idle_walk"
-			elif velocity_last.y > THRESHOLD:
-				$AnimatedSprite2D.animation = "idle_down"
-			elif velocity_last.y < -THRESHOLD:
-				$AnimatedSprite2D.animation = "idle_up"
-	velocity_last = linear_velocity
+	elif Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
+		velocity = Vector2(SPEED, 0)
+	elif Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
+		velocity = Vector2(-SPEED, 0)
+	elif Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
+		velocity = Vector2(0, SPEED)
+	elif Input.is_action_pressed("move_up") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
+		velocity = Vector2(0, -SPEED)
+	else:
+		velocity = Vector2(0, 0)
+	move_and_slide()
 	
 	
 	if reset_state == RESET_SHOW:
@@ -142,7 +102,7 @@ func start(pos):
 	reset_pos = pos
 	reset_state = RESET_TELEPORT
 	# Wakes up the player physics. Otherwise _integrate_forces() never happens.
-	apply_force(Vector2.ZERO) 
+	# apply_force(Vector2.ZERO)
 	
 	
 func reset_teleport(state):
