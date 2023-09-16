@@ -8,9 +8,9 @@ signal hit
 
 
 # --- Variables ---
-var screen_size 
-var velocity_last
+var screen_size
 
+var vec_move_last = Vector2.ZERO
 
 var SPEED = 2
 var DASH = 65000
@@ -38,7 +38,7 @@ func dash_cooldown_and_timer(wait,timer):
 # --- Standard ---
 func _ready():
 	screen_size = get_viewport_rect().size #Why not var screen_size??
-	velocity_last = Vector2.ZERO
+	$AnimatedSprite2D.play()
 
 
 func _physics_process(delta): #'delta' is the elapsed time since the previous frame.
@@ -58,20 +58,62 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 # Key Processing
 #-------------------------------------------------------------------------------
 func process_keys():
-	var move_velocity = Vector2()
-	if Input.is_action_pressed("move_right"):
-		move_velocity.x = 1
-	if Input.is_action_pressed("move_left"):
-		move_velocity.x = -1
-	if Input.is_action_pressed("move_down"):
-		move_velocity.y = 1
-	if Input.is_action_pressed("move_up"):
-		move_velocity.y = -1
-	velocity = move_velocity.normalized() * SPEED
+	var vec_move = calc_move()
+	update_walk_animations(vec_move)
+	update_idle_animations(vec_move)
+	process_dash(vec_move)
+	velocity = vec_move.normalized() * SPEED
+	vec_move_last = velocity
 
+
+func calc_move():
+	var vec_move = Vector2()
+	if Input.is_action_pressed("move_down"):
+		vec_move.y = 1
+	if Input.is_action_pressed("move_up"):
+		vec_move.y = -1
+	if Input.is_action_pressed("move_right"):
+		vec_move.x = 1
+	if Input.is_action_pressed("move_left"):
+		vec_move.x = -1
+	return vec_move
+
+
+func update_walk_animations(vec_move):
+	if vec_move.x < 0:
+		$AnimatedSprite2D.animation = "walk"
+		$AnimatedSprite2D.flip_h = false
+	elif vec_move.x > 0:
+		$AnimatedSprite2D.animation = "walk"
+		$AnimatedSprite2D.flip_h = true
+	elif vec_move.y > 0:
+		$AnimatedSprite2D.animation = "down"
+		$AnimatedSprite2D.flip_h = false
+	elif vec_move.y < 0:
+		$AnimatedSprite2D.animation = "up"
+		$AnimatedSprite2D.flip_h = false
+
+
+func update_idle_animations(vec_move):
+	if vec_move == Vector2.ZERO and vec_move_last != Vector2.ZERO:
+		if vec_move_last.x != 0:
+			$AnimatedSprite2D.animation = "idle_walk"
+		elif vec_move_last.y < 0:
+			$AnimatedSprite2D.animation = "idle_up"
+		elif vec_move_last.y > 0:
+			$AnimatedSprite2D.animation = "idle_down"
+
+
+func process_dash(vec_move):
 	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped():
 		$DashTimer.start()
 		$DashCooldown.start()
+		if vec_move.x != 0:
+			$AnimatedSprite2D.animation = "dash_sideways"
+		elif vec_move.y == -1:
+			$AnimatedSprite2D.animation = "dash_up"
+		elif vec_move.y == 1:
+			$AnimatedSprite2D.animation = "dash_down"
 
 
 
@@ -84,7 +126,7 @@ func stop():
 
 
 func start(pos):
-	$AnimatedSprite2D.animation = "down"
+	$AnimatedSprite2D.animation = "idle_down"
 	position = pos
 	show()
 	$CollisionShape2D.set_deferred("disabled", false)
