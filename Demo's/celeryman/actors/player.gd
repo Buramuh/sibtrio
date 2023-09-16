@@ -42,8 +42,23 @@ func _ready():
 
 
 func _physics_process(delta): #'delta' is the elapsed time since the previous frame.
+	if $DashTimer.is_stopped():
+		process_keys()
+
+	var result_velocity = velocity
+	if not $DashTimer.is_stopped():
+		result_velocity *= 5
+
+	var collision = move_and_collide(result_velocity)
+	if collision != null and collision.get_collider().is_in_group("mobs"):
+		stop()
+
+
+
+# Key Processing
+#-------------------------------------------------------------------------------
+func process_keys():
 	var speed2 = sqrt((SPEED**2) / 2)
-	
 	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_down"):
 		velocity = Vector2(speed2, speed2)
 	elif Input.is_action_pressed("move_right") and Input.is_action_pressed("move_up"):
@@ -52,7 +67,7 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 		velocity = Vector2(-speed2, speed2)
 	elif Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
 		velocity = Vector2(-speed2, -speed2)
-	
+
 	elif Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
 		velocity = Vector2(SPEED, 0)
 	elif Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
@@ -63,10 +78,10 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 		velocity = Vector2(0, -SPEED)
 	else:
 		velocity = Vector2(0, 0)
-	
-	var collision = move_and_collide(velocity)
-	if collision != null and collision.get_collider().is_in_group("mobs"):
-		stop()
+
+	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped():
+		$DashTimer.start()
+		$DashCooldown.start()
 
 
 

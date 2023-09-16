@@ -155,6 +155,9 @@ position = Vector2(0, 17)
 shape = SubResource("CapsuleShape2D_pxldr")
 
 [node name="DashCooldown" type="Timer" parent="."]
-wait_time = 0.559
+wait_time = 0.5
+one_shot = true
 
 [node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
