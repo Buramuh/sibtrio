@@ -13,8 +13,10 @@ var screen_size
 var vec_move_last = Vector2.ZERO
 
 var SPEED = 2
-var DASH = 65000
+var DASH_MULTIPLIER = 6
+var DASH_DAMPENING = 0.9
 var THRESHOLD = 50 
+
 
 var can_dash = true
 var doing_dash = false
@@ -44,12 +46,10 @@ func _ready():
 func _physics_process(delta): #'delta' is the elapsed time since the previous frame.
 	if $DashTimer.is_stopped():
 		process_keys()
+	else:
+		velocity *= DASH_DAMPENING
 
-	var result_velocity = velocity
-	if not $DashTimer.is_stopped():
-		result_velocity *= 5
-
-	var collision = move_and_collide(result_velocity)
+	var collision = move_and_collide(velocity)
 	if collision != null and collision.get_collider().is_in_group("mobs"):
 		stop()
 
@@ -59,10 +59,10 @@ func _physics_process(delta): #'delta' is the elapsed time since the previous fr
 #-------------------------------------------------------------------------------
 func process_keys():
 	var vec_move = calc_move()
+	velocity = vec_move.normalized() * SPEED
 	update_walk_animations(vec_move)
 	update_idle_animations(vec_move)
 	process_dash(vec_move)
-	velocity = vec_move.normalized() * SPEED
 	vec_move_last = vec_move
 
 
@@ -108,6 +108,7 @@ func process_dash(vec_move):
 	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped():
 		$DashTimer.start()
 		$DashCooldown.start()
+		velocity = vec_move.normalized() * SPEED * DASH_MULTIPLIER
 		if vec_move.x != 0:
 			$AnimatedSprite2D.animation = "dash_sideways"
 		elif vec_move.y == -1:
