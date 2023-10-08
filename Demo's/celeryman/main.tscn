@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bjieui3o6ucbi"]
+[gd_scene load_steps=15 format=3 uid="uid://bjieui3o6ucbi"]
 
 [ext_resource type="PackedScene" uid="uid://tr2effoof52l" path="res://actors/player.tscn" id="1_3glji"]
 [ext_resource type="Script" path="res://main.gd" id="1_qg3oa"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://EdgePath.gd" id="6_h3jmk"]
 [ext_resource type="PackedScene" uid="uid://ch7yo8kbbm7b4" path="res://ui/hud.tscn" id="6_ii03r"]
 [ext_resource type="Script" path="res://CirclePath.gd" id="7_prpiv"]
+[ext_resource type="PackedScene" uid="uid://c4n7kge78r3pu" path="res://dialogue/Dialogue.tscn" id="7_rl6kx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1k4b"]
 size = Vector2(64, 921)
@@ -29,10 +30,10 @@ script = ExtResource("1_qg3oa")
 mob_scene = ExtResource("2_3in1u")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = -40.0
-offset_top = -313.0
-offset_right = 960.0
-offset_bottom = 487.0
+offset_left = -37.0
+offset_top = -337.0
+offset_right = 963.0
+offset_bottom = 463.0
 scale = Vector2(2, 2)
 texture = ExtResource("3_lxxe7")
 
@@ -52,7 +53,7 @@ one_shot = true
 position = Vector2(960, 720)
 
 [node name="Walls" type="StaticBody2D" parent="."]
-position = Vector2(652, 544)
+position = Vector2(655, 514)
 collision_layer = 2
 collision_mask = 2
 
@@ -69,17 +70,17 @@ rotation = 1.5708
 shape = SubResource("RectangleShape2D_diwby")
 
 [node name="Walls@CollisionShape2D4" type="CollisionShape2D" parent="Walls"]
-position = Vector2(503.56, 369)
+position = Vector2(504.841, 370)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_773r4")
 
 [node name="Walls@CollisionShape2D5" type="CollisionShape2D" parent="Walls"]
-position = Vector2(112.719, 369)
+position = Vector2(111, 371)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_773r4")
 
 [node name="Walls@CollisionShape2D6" type="CollisionShape2D" parent="Walls"]
-position = Vector2(304, 381)
+position = Vector2(308.281, 386)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_lo8of")
 
@@ -98,6 +99,8 @@ curve = SubResource("Curve2D_300pi")
 script = ExtResource("7_prpiv")
 
 [node name="CircleFollow" type="PathFollow2D" parent="CirclePath"]
+
+[node name="Dialogue" parent="." instance=ExtResource("7_rl6kx")]
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
