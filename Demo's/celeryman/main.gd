@@ -89,30 +89,16 @@ func _on_mob_timer_timeout():
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
 
-#Weird Button stuff
 
 
-
+# --- Weirdness ---
 func _on_hud_enable_weird():
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	for mob in mobs:
 		mob.collision_mask = 1
-	$Player.lock_rotation = false
-
 
 
 func _on_hud_disable_weird():
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	for mob in mobs:
 		mob.collision_mask = 0
-	$Player.lock_rotation = true
-	$Player.start_reset_rotation()
-	
-	#$Player.set_rot(0)
-	#var pos = $Player.position
-	#$Player.transform = Transform2D(0,pos)
-	
-	
-	
-	
-	
