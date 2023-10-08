@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends CharacterBody2D
 
 
 
@@ -8,129 +8,99 @@ signal hit
 
 
 # --- Variables ---
-var screen_size 
-var velocity_last
+var screen_size
 
+var vec_move_last = Vector2.ZERO
 
-var SPEED = 1500
-var DASH = 65000
-var THRESHOLD = 50 
-
-var can_dash = true
-var doing_dash = false
-
-
-
-func dash_cooldown_and_timer(wait,timer):
-	$DashCooldown.wait_time = wait
-	$DashTimer.wait_time = timer
-	$DashCooldown.start()
-	$DashTimer.start()
-	can_dash = false
-	doing_dash = true
-	await $DashTimer.timeout
-	doing_dash = false
-	await $DashCooldown.timeout
-	can_dash = true
+var SPEED = 2
+var DASH_MULTIPLIER = 6
+var DASH_DAMPENING = 0.9
 
 
 
 # --- Standard ---
 func _ready():
 	screen_size = get_viewport_rect().size #Why not var screen_size??
-	velocity_last = Vector2.ZERO
+	$AnimatedSprite2D.play()
 
 
-func _process(delta): #'delta' is the elapsed time since the previous frame.
-	var velocity = Vector2.ZERO # The player's movement vector.
-	var speed2 = sqrt((SPEED**2) / 2)
-	
-	
-	if linear_velocity.length() > THRESHOLD:
-		$AnimatedSprite2D.play() # $ is shorthand for get_node()
+func _physics_process(delta): #'delta' is the elapsed time since the previous frame.
+	if $DashTimer.is_stopped():
+		process_keys()
 	else:
-		$AnimatedSprite2D.stop()
-		
-	
-	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_down"):
-		apply_force(Vector2(speed2, speed2))
-	if Input.is_action_pressed("move_right") and Input.is_action_pressed("move_up"):
-		apply_force(Vector2(speed2, -speed2))
-	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_down"):
-		apply_force(Vector2(-speed2, speed2))
-	if Input.is_action_pressed("move_left") and Input.is_action_pressed("move_up"):
-		apply_force(Vector2(-speed2, -speed2))
-	
-	if Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
-		apply_force(Vector2(SPEED, 0))
-	if Input.is_action_pressed("move_left") and !Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_up"):
-		apply_force(Vector2(-SPEED, 0))
-	if Input.is_action_pressed("move_down") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
-		apply_force(Vector2(0, SPEED))
-	if Input.is_action_pressed("move_up") and !Input.is_action_pressed("move_right") and !Input.is_action_pressed("move_left"):
-		apply_force(Vector2(0, -SPEED))
-	
-	
-	if Input.is_action_pressed("dash"):
-		if can_dash:
-			doing_dash = true
-			var vel = linear_velocity.normalized()
-			apply_force(Vector2(vel.x*DASH, vel.y*DASH))
-			dash_cooldown_and_timer(0.5, 0.3)
-			if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
-				$AnimatedSprite2D.animation = "dash_sideways"
-			elif linear_velocity.y < -THRESHOLD:
-				$AnimatedSprite2D.animation = "dash_up"
-			elif linear_velocity.y > THRESHOLD:
-				$AnimatedSprite2D.animation = "dash_down"
-			
-	
-	
-	if !doing_dash:
-		if linear_velocity.x > THRESHOLD or linear_velocity.x < -THRESHOLD:
-			$AnimatedSprite2D.animation = "walk"
-			$AnimatedSprite2D.flip_h = linear_velocity.x > 0
-		elif linear_velocity.y < -THRESHOLD:
-			$AnimatedSprite2D.animation = "up"
-			$AnimatedSprite2D.flip_h = false
-		elif linear_velocity.y > THRESHOLD:
-			$AnimatedSprite2D.animation = "down"
-			$AnimatedSprite2D.flip_h = false
-		else:
-			if velocity_last.x > THRESHOLD or velocity_last.x < -THRESHOLD:
-				$AnimatedSprite2D.animation = "idle_walk"
-			elif velocity_last.y > THRESHOLD:
-				$AnimatedSprite2D.animation = "idle_down"
-			elif velocity_last.y < -THRESHOLD:
-				$AnimatedSprite2D.animation = "idle_up"
-	velocity_last = linear_velocity
-	
-	
-	if reset_state == RESET_SHOW:
-		reset_show()
-	elif reset_state >= RESET_DELAY:
-		reset_state += 1
+		velocity *= DASH_DAMPENING
 
-
-
-func _on_body_entered(body):
-	if body in get_tree().get_nodes_in_group("mobs"):
+	var collision = move_and_collide(velocity)
+	if collision != null and collision.get_collider().is_in_group("mobs"):
 		stop()
+
+
+
+# Key Processing
+#-------------------------------------------------------------------------------
+func process_keys():
+	var vec_move = calc_move()
+	velocity = vec_move.normalized() * SPEED
+	update_walk_animations(vec_move)
+	update_idle_animations(vec_move)
+	process_dash(vec_move)
+	vec_move_last = vec_move
+
+
+func calc_move():
+	var vec_move = Vector2()
+	if Input.is_action_pressed("move_down"):
+		vec_move.y = 1
+	if Input.is_action_pressed("move_up"):
+		vec_move.y = -1
+	if Input.is_action_pressed("move_right"):
+		vec_move.x = 1
+	if Input.is_action_pressed("move_left"):
+		vec_move.x = -1
+	return vec_move
+
+
+func update_walk_animations(vec_move):
+	if vec_move.x < 0:
+		$AnimatedSprite2D.animation = "walk"
+		$AnimatedSprite2D.flip_h = false
+	elif vec_move.x > 0:
+		$AnimatedSprite2D.animation = "walk"
+		$AnimatedSprite2D.flip_h = true
+	elif vec_move.y > 0:
+		$AnimatedSprite2D.animation = "down"
+		$AnimatedSprite2D.flip_h = false
+	elif vec_move.y < 0:
+		$AnimatedSprite2D.animation = "up"
+		$AnimatedSprite2D.flip_h = false
+
+
+func update_idle_animations(vec_move):
+	if vec_move == Vector2.ZERO and vec_move_last != Vector2.ZERO:
+		if vec_move_last.x != 0:
+			$AnimatedSprite2D.animation = "idle_walk"
+		elif vec_move_last.y < 0:
+			$AnimatedSprite2D.animation = "idle_up"
+		elif vec_move_last.y > 0:
+			$AnimatedSprite2D.animation = "idle_down"
+
+
+func process_dash(vec_move):
+	if Input.is_action_just_pressed("dash") and $DashCooldown.is_stopped() and vec_move != Vector2.ZERO:
+		$DashTimer.start()
+		$DashCooldown.start()
+		velocity = vec_move.normalized() * SPEED * DASH_MULTIPLIER
+		if vec_move.x != 0:
+			$AnimatedSprite2D.animation = "dash_sideways"
+		elif vec_move.y == -1:
+			$AnimatedSprite2D.animation = "dash_up"
+		elif vec_move.y == 1:
+			$AnimatedSprite2D.animation = "dash_down"
+
 
 
 # Resetting
 #-------------------------------------------------------------------------------
-var reset_pos
-
-var RESET_TELEPORT = 0
-var RESET_DELAY = 1
-var RESET_SHOW = 2
-var RESET_DONE = 3
-var reset_state = RESET_DONE
-
-var reset_rotation = false
-
-
 func stop():
 	hit.emit()
 	hide()
@@ -138,30 +108,7 @@ func stop():
 
 
 func start(pos):
-	$AnimatedSprite2D.animation = "down"
-	reset_pos = pos
-	reset_state = RESET_TELEPORT
-	# Wakes up the player physics. Otherwise _integrate_forces() never happens.
-	apply_force(Vector2.ZERO) 
-	
-	
-func reset_teleport(state):
-	state.transform = Transform2D(0, reset_pos)
-	reset_state = RESET_DELAY
-
-func reset_show():
+	$AnimatedSprite2D.animation = "idle_down"
+	position = pos
 	show()
 	$CollisionShape2D.set_deferred("disabled", false)
-	reset_state = RESET_DONE
-	
-	
-func start_reset_rotation():
-	reset_rotation = true
-
-func _integrate_forces(state):
-	if reset_state == RESET_TELEPORT:
-		reset_teleport(state)
-	if reset_rotation:
-		state.transform = Transform2D(0, position)
-		reset_rotation = false
-

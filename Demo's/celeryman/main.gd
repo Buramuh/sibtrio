@@ -54,22 +54,31 @@ func calc_direction_to_look_at(target, origin):
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
+	mob.variant = randi() % Mob.Variant.size()
 	
 	if $HUD.physics:
 		mob.collision_mask = 1
 
 	# Choose a random location on Path2D.
-	var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
+	var mob_spawn_location
+	if mob.variant == Mob.Variant.PHANTOM:
+		mob_spawn_location = get_node("CirclePath/CircleFollow")
+	else:
+		mob_spawn_location = get_node("EdgePath/EdgeFollow")
 	mob_spawn_location.progress_ratio = randf()
 
 	# Set the mob's position to a random location.
 	mob.position = mob_spawn_location.position
 	
 	# Set the mob's direction to look at center
-	var direction = calc_direction_to_look_at(CENTER, mob.position)
+	var direction
+	if mob.variant == Mob.Variant.SNIPER:
+		direction = calc_direction_to_look_at($Player.position, mob.position)
+	else:
+		direction = calc_direction_to_look_at(CENTER, mob.position)
+		direction += randf_range(-PI/8,PI/8)
 
 	# Add some randomness to the direction. -> I tried to make them point to the middle
-	direction += randf_range(-PI/8,PI/8)
 	mob.rotation = direction
 
 	# Choose the velocity for the mob.
@@ -80,30 +89,16 @@ func _on_mob_timer_timeout():
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
 
-#Weird Button stuff
 
 
-
+# --- Weirdness ---
 func _on_hud_enable_weird():
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	for mob in mobs:
 		mob.collision_mask = 1
-	$Player.lock_rotation = false
-
 
 
 func _on_hud_disable_weird():
 	var mobs = get_tree().get_nodes_in_group("mobs")
 	for mob in mobs:
 		mob.collision_mask = 0
-	$Player.lock_rotation = true
-	$Player.start_reset_rotation()
-	
-	#$Player.set_rot(0)
-	#var pos = $Player.position
-	#$Player.transform = Transform2D(0,pos)
-	
-	
-	
-	
-	
