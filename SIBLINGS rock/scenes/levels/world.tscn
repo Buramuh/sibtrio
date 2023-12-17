@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlu8cb2bf1scr"]
+
+[ext_resource type="Script" path="res://scenes/levels/world.gd" id="1_gq56t"]
+[ext_resource type="TileSet" uid="uid://btyl8w8yw44af" path="res://scenes/levels/interior_1.tres" id="1_n4i74"]
+[ext_resource type="PackedScene" uid="uid://ddbxm5ghhya1g" path="res://scenes/characters/player.tscn" id="3_x23jw"]
+
+[node name="World" type="Node2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_gq56t")
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="Ground"]
+tile_set = ExtResource("1_n4i74")
+format = 2
+layer_0/name = "Objects"
+layer_1/name = "Ground"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 0
+layer_1/tile_data = PackedInt32Array()
+
+[node name="Attacks" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("3_x23jw")]
+
+[connection signal="primary_attack" from="Player" to="." method="_on_player_primary_attack"]

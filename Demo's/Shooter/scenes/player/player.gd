@@ -6,6 +6,7 @@ signal update_stats()
 var can_laser: bool = true
 var can_grenade: bool = true
 
+
 @export var max_speed: int = 1000
 var speed: int = max_speed
 
@@ -19,6 +20,7 @@ func _process(_delta):
 	var direction = Input.get_vector("left", "right", "up", "down")
 	velocity = direction * speed	
 	move_and_slide()
+	Globals.player_pos = position
 	
 	look_at(get_global_mouse_position())
 	
@@ -32,7 +34,7 @@ func _process(_delta):
 		can_laser = false
 		laser.emit(selected_laser.global_position, player_direction)
 		$LaserParticles.emitting = true
-		$TimerLaser.start(0.5)
+		$Timers/TimerLaser.start(0.5)
 		
 
 	if Input.is_action_pressed("secondary action") and can_grenade and Globals.grenade_amount >0: 
@@ -41,17 +43,18 @@ func _process(_delta):
 		var selected_grenade = grenade_markers[randi() % grenade_markers.size()]
 
 		can_grenade = false
-		
-		print(position)
-		print(global_position)
 		grenade.emit(selected_grenade.global_position, player_direction)
-		$TimerGrenade.start(2)
+		$Timers/TimerGrenade.start(2)
 
+func hit():
+	
+	print("ouch")
+	Globals.health -= 10
+	if Globals.health  <= 0:
+		print("game over!")
 
 func _on_timer_timeout():
 	can_laser = true
-
-
 
 func _on_timer_grenade_timeout():
 	can_grenade = true

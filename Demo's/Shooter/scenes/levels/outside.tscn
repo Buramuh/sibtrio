@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b785qbxhbf7j2"]
+[gd_scene load_steps=21 format=3 uid="uid://b785qbxhbf7j2"]
 
 [ext_resource type="PackedScene" uid="uid://dncr14m8amnrs" path="res://scenes/levels/level.tscn" id="1_pftll"]
 [ext_resource type="Script" path="res://scenes/levels/outside.gd" id="2_lspqe"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bpvw4mtkqnyij" path="res://scenes/objects/toilet.tscn" id="14_oj3n5"]
 [ext_resource type="PackedScene" uid="uid://bxuxivo5xi3dv" path="res://scenes/objects/crate.tscn" id="15_aq0jf"]
 [ext_resource type="PackedScene" uid="uid://dh7y7ot2dr5ki" path="res://scenes/items/item.tscn" id="16_0mq4i"]
+[ext_resource type="PackedScene" uid="uid://dk5wxidpte8rv" path="res://scenes/enemies/scout.tscn" id="16_5n3as"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_38lr7"]
 resource_name = "Walls"
@@ -51,8 +52,11 @@ occlusion_layer_0/light_mask = 1
 sources/0 = SubResource("TileSetAtlasSource_38lr7")
 sources/1 = SubResource("TileSetAtlasSource_ms6ph")
 
-[node name="Level" instance=ExtResource("1_pftll")]
+[node name="Outside" instance=ExtResource("1_pftll")]
 script = ExtResource("2_lspqe")
+
+[node name="Ground" parent="." index="0"]
+metadata/_edit_lock_ = true
 
 [node name="Soil" type="Sprite2D" parent="Ground" index="0"]
 texture_repeat = 2
@@ -107,26 +111,26 @@ rotation = 2.61799
 position = Vector2(161, -1547)
 
 [node name="Toilet" parent="." index="5" instance=ExtResource("14_oj3n5")]
+position = Vector2(152, -186)
 
 [node name="Crate" parent="." index="6" instance=ExtResource("15_aq0jf")]
 position = Vector2(839, -5)
 
-[node name="Player" parent="." index="7"]
-position = Vector2(165, -635)
+[node name="Scout" parent="Enemies" index="0" instance=ExtResource("16_5n3as")]
+position = Vector2(-266, -228)
 
-[node name="Camera2D" parent="Player" index="8"]
+[node name="Player" parent="." index="8"]
+position = Vector2(183, -487)
+
+[node name="Camera2D" parent="Player" index="7"]
 metadata/_edit_lock_ = true
 
-[node name="Item" parent="." index="9" instance=ExtResource("16_0mq4i")]
-position = Vector2(285, -384)
-
-[node name="Item4" parent="." index="10" instance=ExtResource("16_0mq4i")]
+[node name="Item4" parent="." index="9" instance=ExtResource("16_0mq4i")]
 position = Vector2(645, -357)
 
-[node name="Item2" parent="." index="11" instance=ExtResource("16_0mq4i")]
-position = Vector2(-9, -297)
+[node name="Items" parent="." index="11"]
+position = Vector2(-156, -379)
 
-[node name="Item3" parent="." index="12" instance=ExtResource("16_0mq4i")]
-position = Vector2(-512, -372)
-
+[connection signal="player_entered" from="House" to="." method="_on_house_player_entered"]
+[connection signal="player_exited" from="House" to="." method="_on_house_player_exited"]
 [connection signal="player_entered_gate" from="Gate" to="." method="_on_gate_player_entered_gate"]

@@ -31,7 +31,7 @@ color_ramp = SubResource("GradientTexture1D_08uvi")
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_eqxlp"]
 polygon = PackedVector2Array(-36, -44, -28, -45, -24, -49, -11, -58, 6, -59, 26, -60, 47, -41, 51, -26, 67, -25, 79, -11, 89, -10, 97, -3, 111, -2, 124, 3, 132, 8, 135, 20, 130, 35, 122, 32, 110, 37, 97, 46, 94, 51, 66, 51, 64, 41, 47, 40, 18, 49, 13, 54, -12, 61, -31, 53, -36, 42, -49, 22, -54, 6, -56, -23, -48, -35)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Entity"]]
 collision_mask = 31
 script = ExtResource("1_c4g3p")
 
@@ -44,10 +44,6 @@ texture = ExtResource("1_we46q")
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_ccg7d")
 
-[node name="TimerLaser" type="Timer" parent="."]
-
-[node name="TimerGrenade" type="Timer" parent="."]
-
 [node name="LaserStartPositions" type="Node2D" parent="."]
 position = Vector2(10, -128)
 
@@ -55,10 +51,10 @@ position = Vector2(10, -128)
 position = Vector2(126, 148)
 
 [node name="Marker2D2" type="Marker2D" parent="LaserStartPositions"]
-position = Vector2(125, 154)
+position = Vector2(125, 158)
 
 [node name="Marker2D3" type="Marker2D" parent="LaserStartPositions"]
-position = Vector2(124, 141)
+position = Vector2(127, 142)
 
 [node name="GrenadeStartPositions2" type="Node2D" parent="."]
 position = Vector2(39, -89)
@@ -73,7 +69,7 @@ position = Vector2(65, 117)
 position = Vector2(63, 108)
 
 [node name="LaserParticles" type="GPUParticles2D" parent="."]
-position = Vector2(137, 20)
+position = Vector2(141, 21)
 emitting = false
 amount = 6
 process_material = SubResource("ParticleProcessMaterial_lwbee")
@@ -84,5 +80,11 @@ one_shot = true
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_eqxlp")
 
-[connection signal="timeout" from="TimerLaser" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="TimerGrenade" to="." method="_on_timer_grenade_timeout"]
+[node name="Timers" type="Node" parent="."]
+
+[node name="TimerGrenade" type="Timer" parent="Timers"]
+
+[node name="TimerLaser" type="Timer" parent="Timers"]
+
+[connection signal="timeout" from="Timers/TimerGrenade" to="." method="_on_timer_grenade_timeout"]
+[connection signal="timeout" from="Timers/TimerLaser" to="." method="_on_timer_timeout"]
