@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 signal primary_attack(pos, direction)
 
-@export var max_speed: int = 500
+@export var max_speed: int = 250
 var speed: int = max_speed
 var facing = Vector2(0, 0)
 
@@ -40,7 +40,6 @@ func _process(_delta):
 	if Input.is_action_just_pressed("primary action"):
 		$HandsCenter/Keyboard.primary()
 		var attack_pos = $HandsCenter/Keyboard/AttackMarkers/Marker2D.global_position
-		print(attack_pos)
 		var attack_face = $HandsCenter.rotation_degrees
 		#var attack_pos = $HandsCenter/Keyboard.get_node("AttackMarkers/Marker2D").global_position
 		primary_attack.emit(attack_pos, attack_face)

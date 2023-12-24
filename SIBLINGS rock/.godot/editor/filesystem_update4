@@ -1,10 +1,10 @@
 res://scenes/characters/player.tscn
 res://scenes/levels/interior_1.tres
 res://scenes/levels/world.tscn
+res://scenes/UI/dialog_popup.tscn
 res://scenes/levels/office_0.tscn
+res://scenes/objects/computer_1.tscn
+res://scenes/effects/keyboard_attack.gd
+res://scenes/objects/computer_1.gd
 res://scenes/effects/keyboard_attack.tscn
-res://scenes/equipment/wielded_item.tscn
-res://scenes/equipment/keyboard.tscn
-res://scenes/characters/player.gd
-res://scenes/levels/world.gd
-res://scenes/equipment/keyboard.gd
+res://scenes/levels/office_0.gd

@@ -7,6 +7,7 @@
 [node name="World" type="Node2D"]
 scale = Vector2(3, 3)
 script = ExtResource("1_gq56t")
+metadata/_edit_lock_ = true
 
 [node name="Ground" type="Node2D" parent="."]
 
@@ -25,5 +26,6 @@ layer_1/tile_data = PackedInt32Array()
 [node name="Attacks" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("3_x23jw")]
+metadata/_edit_lock_ = true
 
 [connection signal="primary_attack" from="Player" to="." method="_on_player_primary_attack"]
