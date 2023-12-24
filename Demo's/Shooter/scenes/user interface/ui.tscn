@@ -1,0 +1,122 @@
+[gd_scene load_steps=7 format=3 uid="uid://bjab4nnkg8hc"]
+
+[ext_resource type="Script" path="res://scenes/user interface/ui.gd" id="1_37byv"]
+[ext_resource type="Theme" uid="uid://b6cv4ryofh3ur" path="res://scenes/user interface/main_theme.tres" id="1_ilvc1"]
+[ext_resource type="Texture2D" uid="uid://qx2hspo0n0q0" path="res://graphics/ui/bullet.png" id="1_mdlqj"]
+[ext_resource type="Texture2D" uid="uid://7atpcassk63t" path="res://graphics/ui/grenade.png" id="2_61j1w"]
+[ext_resource type="Texture2D" uid="uid://cptjjmsvb71hm" path="res://graphics/ui/progress_bar/bg.png" id="4_p301m"]
+[ext_resource type="Texture2D" uid="uid://dhtmxhds27sn0" path="res://graphics/ui/progress_bar/progress.png" id="6_o32ha"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_37byv")
+
+[node name="Control" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchor_top = 0.967
+anchor_right = 0.033
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="BottomLeftHBar" type="HBoxContainer" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.033
+anchor_right = 0.197
+offset_right = 40.0
+offset_bottom = 49.0
+alignment = 1
+
+[node name="GrenadeController" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.098
+anchor_top = 0.918
+anchor_right = 0.163
+anchor_bottom = 1.0
+offset_top = -49.0
+grow_vertical = 0
+
+[node name="GrenadeCounter" type="VBoxContainer" parent="GrenadeController"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="GrenadeController/GrenadeCounter"]
+layout_mode = 2
+theme = ExtResource("1_ilvc1")
+text = "5"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="GrenadeController/GrenadeCounter"]
+layout_mode = 2
+texture = ExtResource("2_61j1w")
+expand_mode = 4
+
+[node name="BulletController" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.026
+anchor_top = 0.919
+anchor_right = 0.082
+anchor_bottom = 0.984
+offset_top = -49.0
+grow_vertical = 0
+
+[node name="BulletCounter" type="VBoxContainer" parent="BulletController"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="BulletController/BulletCounter"]
+layout_mode = 2
+theme = ExtResource("1_ilvc1")
+text = "20
+"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BulletController/BulletCounter"]
+layout_mode = 2
+texture = ExtResource("1_mdlqj")
+expand_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -30.0
+offset_right = 150.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 30
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+value = 50.0
+texture_under = ExtResource("4_p301m")
+texture_progress = ExtResource("6_o32ha")
+
+[node name="Control2" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0

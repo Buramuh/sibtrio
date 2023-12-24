@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://da7bcu58rxw8h"]
+
+[ext_resource type="Script" path="res://scenes/houses/house.gd" id="1_ujs4p"]
+[ext_resource type="PackedScene" uid="uid://dcvywa68cwb3i" path="res://scenes/objects/wall_light.tscn" id="2_82ok7"]
+[ext_resource type="TileSet" uid="uid://cttpm4vmjsmsa" path="res://scenes/levels/house.tres" id="2_dn4hc"]
+[ext_resource type="PackedScene" uid="uid://cjmegak38sjyv" path="res://scenes/objects/simple_light.tscn" id="3_7wkcs"]
+[ext_resource type="PackedScene" uid="uid://5h6fgfmd5u01" path="res://scenes/objects/light_fan_animation.tscn" id="5_e3klm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tk0jx"]
+size = Vector2(3639, 2088)
+
+[node name="House" type="Area2D"]
+collision_layer = 16
+script = ExtResource("1_ujs4p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(4, 1170)
+shape = SubResource("RectangleShape2D_tk0jx")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_dn4hc")
+format = 2
+layer_0/name = "Tiles"
+layer_0/tile_data = PackedInt32Array(131068, 65536, 1, 131069, 65536, 1, 131070, 65536, 1, 131071, 65536, 1, 65536, 65536, 1, 65537, 65536, 1, 65538, 65536, 1, 65539, 65536, 1, 131075, 65536, 1, 196611, 65536, 1, 262147, 65536, 1, 262146, 65536, 1, 262145, 65536, 1, 262144, 65536, 1, 327679, 65536, 1, 327677, 65536, 1, 327676, 65536, 1, 327678, 65536, 1, 262140, 65536, 1, 196604, 65536, 1, 196605, 65536, 1, 196606, 65536, 1, 196607, 65536, 1, 131072, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 196610, 65536, 1, 196609, 65536, 1, 196608, 65536, 1, 262143, 65536, 1, 262142, 65536, 1, 262141, 65536, 1, 327681, 65536, 2, 327682, 65536, 2, 327683, 65536, 2, 393214, 65536, 2, 393213, 65536, 2, 393212, 65536, 2, 327675, 0, 1, 262139, 0, 1, 196603, 0, 1, 131067, 0, 1, 196612, 131072, 1, 131076, 131072, 1, 65540, 131072, 1, 65532, 65536, 0, 65533, 65536, 0, 65534, 65536, 0, 65535, 65536, 0, 0, 65536, 0, 1, 65536, 0, 2, 65536, 0, 3, 65536, 0, 262148, 131072, 1, 4, 131072, 0, 65531, 0, 0, 393211, 0, 2, 327684, 131072, 2, 327680, 131072, 4, 393215, 131072, 4)
+layer_1/name = "Interior"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array(393214, 327680, 8, 327681, 327680, 8, 327678, 65536, 6, 262145, 65536, 6, 262142, 196608, 7, 196609, 131072, 8, 131073, 65536, 7, 131072, 0, 6, 262141, 0, 6, 196610, 0, 6)
+layer_2/name = "Walls"
+layer_2/enabled = true
+layer_2/modulate = Color(1, 1, 1, 1)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 2
+layer_2/tile_data = PackedInt32Array(65535, 262144, 0, 0, 262144, 0, 1, 262144, 0, 2, 262144, 0, 65534, 262144, 0, 65533, 262144, 0, 4, 327680, 0, 3, 262144, 0, 65532, 262144, 0, 65531, 196608, 0, 131067, 196608, 1, 196603, 196608, 1, 262139, 196608, 1, 65540, 327680, 1, 131076, 327680, 1, 196612, 327680, 1, 327675, 327680, 1, 262148, 327680, 1, 327684, 327680, 2, 393211, 196608, 2, 393212, 262144, 2, 393213, 262144, 2, 393214, 262144, 2, 327683, 262144, 2, 327682, 262144, 2, 327681, 262144, 2)
+
+[node name="wall_light" parent="." instance=ExtResource("2_82ok7")]
+position = Vector2(-1611, 1170)
+rotation = 1.5708
+
+[node name="wall_light2" parent="." instance=ExtResource("2_82ok7")]
+position = Vector2(1618, 1305)
+rotation = 4.69908
+
+[node name="SimpleLight" parent="." instance=ExtResource("3_7wkcs")]
+position = Vector2(222, 1013)
+rotation = -0.00103402
+
+[node name="SimpleLight2" parent="." instance=ExtResource("3_7wkcs")]
+position = Vector2(223, 944)
+rotation = -3.13156
+
+[node name="LightFanAnimation" parent="." instance=ExtResource("5_e3klm")]
+position = Vector2(4, 1766)
+scale = Vector2(0.5, 0.5)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

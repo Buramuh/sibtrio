@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu17lw76anqkk"]
+
+[ext_resource type="Script" path="res://scenes/equipment/wielded_item.gd" id="1_5iml6"]
+
+[node name="Wielded Item" type="Area2D"]
+script = ExtResource("1_5iml6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="AttackMarkers" type="Node2D" parent="."]
+position = Vector2(8, 8)
+rotation = -0.785397
+scale = Vector2(0.072, 0.0240964)
+
+[node name="Marker2D" type="Marker2D" parent="AttackMarkers"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

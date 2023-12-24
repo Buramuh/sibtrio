@@ -1,0 +1,176 @@
+[gd_scene load_steps=11 format=3 uid="uid://ddl4moeeagoga"]
+
+[ext_resource type="Script" path="res://scenes/projectiles/grenade.gd" id="1_m724j"]
+[ext_resource type="Texture2D" uid="uid://dfwftxigfwb68" path="res://graphics/projectiles/grenade.png" id="1_n5wkw"]
+[ext_resource type="Texture2D" uid="uid://b37xry3w5mn3b" path="res://graphics/explosions/explosion_3.png" id="3_cw1mt"]
+[ext_resource type="Texture2D" uid="uid://pd5yb65bnjjs" path="res://graphics/lights/textures/circle.png" id="4_cwg2f"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mfxu4"]
+friction = 10.0
+bounce = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dibyn"]
+radius = 15.0333
+
+[sub_resource type="Animation" id="Animation_ii1qd"]
+resource_name = "Blinking"
+length = 2.0
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Blinker:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 0.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"explode"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_6pgb6"]
+resource_name = "Explosion"
+length = 2.4
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosions:frame")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Explosions:modulate")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1, 2.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_djerr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Blinker:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosions:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ed4c"]
+_data = {
+"Blinking": SubResource("Animation_ii1qd"),
+"Explosion": SubResource("Animation_6pgb6"),
+"RESET": SubResource("Animation_djerr")
+}
+
+[node name="Grenade" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 31
+physics_material_override = SubResource("PhysicsMaterial_mfxu4")
+gravity_scale = 0.0
+linear_damp = 1.6
+script = ExtResource("1_m724j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_dibyn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_n5wkw")
+
+[node name="Explosions" type="Sprite2D" parent="."]
+texture = ExtResource("3_cw1mt")
+hframes = 8
+vframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Blinking"
+libraries = {
+"": SubResource("AnimationLibrary_8ed4c")
+}
+
+[node name="Blinker" type="PointLight2D" parent="."]
+color = Color(0.74902, 0, 0, 1)
+energy = 0.0
+texture = ExtResource("4_cwg2f")
+texture_scale = 0.03
