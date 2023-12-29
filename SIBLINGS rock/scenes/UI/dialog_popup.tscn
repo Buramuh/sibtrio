@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjobm6j682nd6"]
+
+[ext_resource type="Script" path="res://scenes/UI/dialog_popup.gd" id="1_1xljh"]
+
+[sub_resource type="FontVariation" id="FontVariation_aocbv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dknnr"]
+font = SubResource("FontVariation_aocbv")
+
+[node name="DialogPopup" type="CanvasLayer"]
+visible = false
+script = ExtResource("1_1xljh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -518.5
+offset_top = -130.0
+offset_right = 518.5
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 6
+size_flags_vertical = 8
+color = Color(0.192157, 0.00784314, 0.0980392, 1)
+
+[node name="Speaker" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 67.0
+offset_bottom = 29.0
+text = "Speaker"
+label_settings = SubResource("LabelSettings_dknnr")
+
+[node name="Content" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 27.0
+offset_right = 1071.0
+offset_bottom = 105.0
+text = "There's a lady I know, that only eats cornflakes bowls. And she's munching her way towards HEAVEN.
+By the end of this verse, you will all suffer my curse. And you'll all eat nothing but floor ELEVEN. WOOOOOOOOOOOOOOOOOOOOO
+oooOOOooOOo"
+
+[node name="Replies" type="Node" parent="ColorRect"]
+
+[node name="Reply" type="Label" parent="ColorRect/Replies"]
+offset_left = 376.0
+offset_top = 27.0
+offset_right = 635.0
+offset_bottom = 84.0

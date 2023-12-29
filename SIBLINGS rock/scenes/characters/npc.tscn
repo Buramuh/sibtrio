@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5mt1ksqa7t8k"]
+
+[ext_resource type="Script" path="res://scenes/characters/npc.gd" id="1_1ot02"]
+
+[node name="NPC" type="CharacterBody2D" groups=["NPC"]]
+script = ExtResource("1_1ot02")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.0722892, 0.0722892)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
