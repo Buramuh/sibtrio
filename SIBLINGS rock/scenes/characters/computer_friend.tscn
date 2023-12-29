@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://dskgw6vm2jufl"]
+
+[ext_resource type="PackedScene" uid="uid://b5mt1ksqa7t8k" path="res://scenes/characters/npc.tscn" id="1_2yawt"]
+[ext_resource type="Script" path="res://scenes/characters/computer_friend.gd" id="2_0lwgs"]
+[ext_resource type="Texture2D" uid="uid://dkhnkd3vfif6m" path="res://assets/item/white.png" id="2_jakfr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d4jas"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jakfr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pqpew"]
+size = Vector2(18, 18)
+
+[node name="Computer Friend" instance=ExtResource("1_2yawt")]
+script = ExtResource("2_0lwgs")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_d4jas")
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource("RectangleShape2D_pqpew")
