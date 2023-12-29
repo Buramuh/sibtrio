@@ -2,8 +2,6 @@
 extends WieldedItems
 
 func primary():
-	
-	
 	var tween = create_tween().set_parallel(true)
 	var curr_position = position
 	tween.tween_property($".", "rotation_degrees", 65, 0.1)
