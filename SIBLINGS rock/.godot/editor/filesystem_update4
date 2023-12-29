@@ -10,3 +10,5 @@ res://scenes/characters/player.gd
 res://scenes/characters/computer_friend.gd
 res://scenes/characters/npc.gd
 res://scenes/UI/dialog_popup.tscn
+res://scenes/levels/office_0.gd
+res://scenes/UI/dialog_popup.gd

@@ -6,12 +6,11 @@ var in_interact_range: bool = false:
 		in_interact_range = value
 		$InteractIcon.visible = value		
 
-func _on_interaction_zone_body_entered(body):
-	
+func _on_interaction_zone_body_entered(_body):
 	in_interact_range = true
 	print("body entereed")
 
 
-func _on_interaction_zone_body_exited(body):
+func _on_interaction_zone_body_exited(_body):
 	in_interact_range = false
 	print("body left")

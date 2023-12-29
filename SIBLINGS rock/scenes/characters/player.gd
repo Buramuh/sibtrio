@@ -55,7 +55,7 @@ func _process(_delta):
 		
 	if Input.is_action_just_pressed("Interact"):
 		if %DialogPopup.visible:
-			%DialogPopup.visible = false
+			%DialogPopup.advance_dialogue()
 		elif thing_in_front != null:
 			if thing_in_front.is_in_group("NPC"):
 				thing_in_front.interact($".")
