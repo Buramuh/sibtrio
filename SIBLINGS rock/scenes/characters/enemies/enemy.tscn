@@ -18,6 +18,7 @@ animations = [{
 }]
 
 [node name="Enemy" type="CharacterBody2D"]
+modulate = Color(0.839216, 0, 0, 1)
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_x5x8b")
@@ -26,6 +27,10 @@ script = ExtResource("1_x5x8b")
 shape = SubResource("RectangleShape2D_5yi3g")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-modulate = Color(0.239216, 0.0470588, 0.0470588, 1)
 scale = Vector2(0.176707, 0.176707)
 sprite_frames = SubResource("SpriteFrames_msspj")
+
+[node name="HitEffect" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackCooldown" type="Timer" parent="."]

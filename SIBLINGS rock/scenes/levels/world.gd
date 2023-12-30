@@ -6,13 +6,5 @@ var p_attack_scene: PackedScene = preload("res://scenes/effects/keyboard_attack.
 func _ready():
 	pass # Replace with function body.
 
-func _on_player_primary_attack2(pos, direction):
-	var attack = p_attack_scene.instantiate() as Area2D
-	attack.position = pos
-	attack.rotation_degrees = direction+90
-	
-	$Attacks.add_child(attack)
-
-
 func _on_player_primary_attack(attack):
 	$Attacks.add_child(attack)
