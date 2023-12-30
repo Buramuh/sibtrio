@@ -13,28 +13,17 @@ _data = {
 }
 
 [node name="Keyboard" instance=ExtResource("1_6cgpw")]
+position = Vector2(13, 0)
+rotation = -1.13446
 script = ExtResource("2_1tr68")
 
-[node name="Sprite2D" parent="." index="0"]
-modulate = Color(0.666667, 0.666667, 0.666667, 1)
-position = Vector2(5, 0)
-scale = Vector2(0.072, 0.0240964)
-texture = ExtResource("2_m8uv0")
-
-[node name="AttackMarkers" parent="." index="1"]
-position = Vector2(9.53674e-07, 9.53674e-07)
-metadata/_edit_lock_ = true
-
-[node name="Marker2D" parent="AttackMarkers" index="0"]
-position = Vector2(-49.1045, 264.104)
-
-[node name="Marker2D2" type="Marker2D" parent="AttackMarkers" index="1"]
-position = Vector2(-58.9253, 293.449)
-
-[node name="Marker2D3" type="Marker2D" parent="AttackMarkers" index="2"]
-position = Vector2(-49.1045, 205.415)
-
-[node name="AnimationPlayer" parent="." index="2"]
+[node name="AnimationPlayer" parent="." index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_44t24")
 }
+
+[node name="Sprite2D" parent="." index="2"]
+modulate = Color(0.564706, 0.564706, 0.564706, 1)
+position = Vector2(3.72804, 0)
+scale = Vector2(0.0723031, -0.0192314)
+texture = ExtResource("2_m8uv0")
