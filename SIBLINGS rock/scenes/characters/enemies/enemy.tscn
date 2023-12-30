@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://0l32dm23nbx"]
 
-[ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_0ldfp"]
+[ext_resource type="Script" path="res://scenes/characters/enemies/enemy.gd" id="1_x5x8b"]
 [ext_resource type="Texture2D" uid="uid://dkhnkd3vfif6m" path="res://assets/item/white.png" id="2_hs7ty"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yi3g"]
@@ -20,7 +20,7 @@ animations = [{
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 7
-script = ExtResource("1_0ldfp")
+script = ExtResource("1_x5x8b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5yi3g")
