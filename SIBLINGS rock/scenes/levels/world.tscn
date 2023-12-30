@@ -25,6 +25,8 @@ layer_1/tile_data = PackedInt32Array()
 
 [node name="Attacks" type="Node2D" parent="."]
 
+[node name="Enemies" type="Node2D" parent="."]
+
 [node name="Player" parent="." instance=ExtResource("3_x23jw")]
 metadata/_edit_lock_ = true
 

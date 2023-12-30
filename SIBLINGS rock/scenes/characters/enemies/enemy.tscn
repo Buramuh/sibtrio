@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://0l32dm23nbx"]
+
+[ext_resource type="Script" path="res://scenes/characters/enemies/Enemy.gd" id="1_0ldfp"]
+[ext_resource type="Texture2D" uid="uid://dkhnkd3vfif6m" path="res://assets/item/white.png" id="2_hs7ty"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5yi3g"]
+size = Vector2(44, 44)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_msspj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hs7ty")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_0ldfp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5yi3g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.239216, 0.0470588, 0.0470588, 1)
+scale = Vector2(0.176707, 0.176707)
+sprite_frames = SubResource("SpriteFrames_msspj")

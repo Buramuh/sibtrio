@@ -25,4 +25,5 @@ shape = SubResource("RectangleShape2D_ufrig")
 wait_time = 0.348
 autostart = true
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -5,8 +5,6 @@
 [node name="Wielded Item" type="Area2D"]
 script = ExtResource("1_5iml6")
 
-[node name="Hitboxes" type="Node2D" parent="."]
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

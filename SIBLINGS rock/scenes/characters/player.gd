@@ -2,17 +2,18 @@ extends CharacterBody2D
 
 signal primary_attack(pos, direction)
 
+@export var max_health: int = 10
+@export var health:int = 10
 @export var max_speed: int = 250
 var speed: int = max_speed
 var facing = Vector2(0, 0)
 var equipped_item: Area2D
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	equipped_item = load("res://scenes/equipment/keyboard.tscn").instantiate()
 	$HandsCenter.add_child(equipped_item)
-	
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -47,13 +48,9 @@ func _process(_delta):
 		
 	#---Handle Action Inputs
 	if Input.is_action_just_pressed("primary action"):
-		#TODO Restructure attacks, make hitbox linked to equipped_item
-		# Get Hitbox node from equipped_item node
-		# send that node to the signal
-		# World instat
-		var attack_face = $HandsCenter.rotation_degrees
-		var attack_face_node = equipped_item.primary(attack_face)
-		primary_attack.emit(attack_face_node)
+		var attack_facing = $HandsCenter.rotation_degrees
+		var attack_node = equipped_item.primary(attack_facing)
+		primary_attack.emit(attack_node)
 		print("Primary Action")
 
 	if Input.is_action_just_pressed("secondary action"):
