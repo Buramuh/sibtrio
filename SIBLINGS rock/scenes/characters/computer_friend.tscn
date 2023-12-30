@@ -20,6 +20,7 @@ size = Vector2(18, 18)
 
 [node name="Computer Friend" instance=ExtResource("1_2yawt")]
 script = ExtResource("2_0lwgs")
+name_text = "Computer Friend"
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_d4jas")

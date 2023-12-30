@@ -1,8 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://ddbxm5ghhya1g"]
+[gd_scene load_steps=28 format=3 uid="uid://ddbxm5ghhya1g"]
 
 [ext_resource type="Script" path="res://scenes/characters/player.gd" id="1_etoqi"]
 [ext_resource type="Texture2D" uid="uid://btaca1o1tqn36" path="res://assets/characters/Girl-Sheet.png" id="2_f7gua"]
-[ext_resource type="PackedScene" uid="uid://b6n0k5dhs6gn8" path="res://scenes/equipment/keyboard.tscn" id="3_7yuaj"]
 [ext_resource type="PackedScene" uid="uid://cjobm6j682nd6" path="res://scenes/UI/dialog_popup.tscn" id="4_53bvj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xfenf"]
@@ -195,10 +194,6 @@ sprite_frames = SubResource("SpriteFrames_57fmc")
 animation = &"move_right"
 
 [node name="HandsCenter" type="Marker2D" parent="."]
-
-[node name="Keyboard" parent="HandsCenter" instance=ExtResource("3_7yuaj")]
-position = Vector2(13, -4.76837e-07)
-rotation = -1.13446
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_8obny")

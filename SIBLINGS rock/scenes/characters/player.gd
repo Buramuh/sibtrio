@@ -5,10 +5,14 @@ signal primary_attack(pos, direction)
 @export var max_speed: int = 250
 var speed: int = max_speed
 var facing = Vector2(0, 0)
+var equipped_item: Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	equipped_item = load("res://scenes/equipment/keyboard.tscn").instantiate()
+	$HandsCenter.add_child(equipped_item)
+	
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -43,11 +47,13 @@ func _process(_delta):
 		
 	#---Handle Action Inputs
 	if Input.is_action_just_pressed("primary action"):
-		$HandsCenter/Keyboard.primary()
-		var attack_pos = $HandsCenter/Keyboard/AttackMarkers/Marker2D.global_position
+		#TODO Restructure attacks, make hitbox linked to equipped_item
+		# Get Hitbox node from equipped_item node
+		# send that node to the signal
+		# World instat
 		var attack_face = $HandsCenter.rotation_degrees
-		#var attack_pos = $HandsCenter/Keyboard.get_node("AttackMarkers/Marker2D").global_position
-		primary_attack.emit(attack_pos, attack_face)
+		var attack_face_node = equipped_item.primary(attack_face)
+		primary_attack.emit(attack_face_node)
 		print("Primary Action")
 
 	if Input.is_action_just_pressed("secondary action"):
@@ -55,7 +61,7 @@ func _process(_delta):
 		
 	if Input.is_action_just_pressed("Interact"):
 		if %DialogPopup.visible:
-			%DialogPopup.visible = false
+			%DialogPopup.advance_dialogue()
 		elif thing_in_front != null:
 			if thing_in_front.is_in_group("NPC"):
 				thing_in_front.interact($".")
