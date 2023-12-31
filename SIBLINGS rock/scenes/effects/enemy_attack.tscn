@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://lln1n1pm7vli"]
+
+[ext_resource type="Script" path="res://scenes/effects/enemy_attack.gd" id="1_s1lj4"]
+[ext_resource type="Texture2D" uid="uid://db1saimy5latl" path="res://assets/effects/lorem_ipsum.png" id="2_qn8ye"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ufrig"]
+size = Vector2(280, 119.999)
+
+[node name="Enemy_attack" type="Area2D"]
+rotation = 1.57079
+collision_layer = 4
+script = ExtResource("1_s1lj4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.321569, 0.321569, 0.776471)
+scale = Vector2(0.112591, 0.0813749)
+texture = ExtResource("2_qn8ye")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.1, 0.1)
+shape = SubResource("RectangleShape2D_ufrig")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.026
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

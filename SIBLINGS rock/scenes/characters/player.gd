@@ -8,7 +8,7 @@ signal primary_attack(pos, direction)
 var speed: int = max_speed
 var facing = Vector2(0, 0)
 var equipped_item: Area2D
-
+var original_color = Color("#ffffff")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,3 +63,16 @@ func _process(_delta):
 			if thing_in_front.is_in_group("NPC"):
 				thing_in_front.interact($".")
 
+
+func hit(damage):
+	health -= damage
+
+	var new_color = Color("#ffb1a5")
+	
+	var tween = create_tween()
+	tween.tween_property($".", "modulate", new_color, 0.25)
+	tween.chain().tween_property($".", "modulate", original_color, 0.25)
+
+	if health <= 0:
+		print("dead")
+	

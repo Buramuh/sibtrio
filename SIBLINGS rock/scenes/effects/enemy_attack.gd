@@ -10,5 +10,5 @@ func _on_body_entered(body):
 func _on_timer_timeout():
 	queue_free()
 
-#func _process(delta):
-#	position += direction  * speed * delta
+func _process(delta):
+	position += direction  * speed * delta
