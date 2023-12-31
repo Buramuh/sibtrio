@@ -17,13 +17,19 @@ position = Vector2(13, 0)
 rotation = -1.13446
 script = ExtResource("2_1tr68")
 
-[node name="AnimationPlayer" parent="." index="1"]
+[node name="AnimationPlayer" parent="." index="0"]
 libraries = {
 "": SubResource("AnimationLibrary_44t24")
 }
 
-[node name="Sprite2D" parent="." index="2"]
+[node name="Sprite2D" parent="." index="1"]
 modulate = Color(0.564706, 0.564706, 0.564706, 1)
 position = Vector2(3.72804, 0)
 scale = Vector2(0.0723031, -0.0192314)
 texture = ExtResource("2_m8uv0")
+
+[node name="AttackMarkers" parent="." index="2"]
+position = Vector2(5.04871, 6.86346)
+
+[node name="Marker2D" parent="AttackMarkers" index="0"]
+position = Vector2(-18.6218, -63.2809)
