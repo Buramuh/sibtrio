@@ -63,7 +63,6 @@ func _process(_delta):
 			if thing_in_front.is_in_group("NPC"):
 				thing_in_front.interact($".")
 
-
 func hit(damage):
 	health -= damage
 
@@ -74,5 +73,8 @@ func hit(damage):
 	tween.chain().tween_property($".", "modulate", original_color, 0.25)
 
 	if health <= 0:
-		print("dead")
+		perish()
 	
+func perish():
+	print("DEAD")
+	speed = 0
