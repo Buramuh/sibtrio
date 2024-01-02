@@ -9,7 +9,7 @@ size = Vector2(280, 119.999)
 [node name="Keyboard_attack" type="Area2D"]
 rotation = 1.57079
 collision_layer = 4
-collision_mask = 3
+collision_mask = 2
 script = ExtResource("1_cau4f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -5,4 +5,7 @@ func _process(_delta):
 		#print('interacting')
 		#if Input.is_action_just_pressed("Interact"):
 			#$Player/Camera2D/DialogPopup.visible = !$Player/Camera2D/DialogPopup.visible 
+			
+		
+		
 	pass

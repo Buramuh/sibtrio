@@ -202,4 +202,3 @@ shape = SubResource("RectangleShape2D_8obny")
 target_position = Vector2(0, 25)
 
 [node name="DialogPopup" parent="." instance=ExtResource("4_53bvj")]
-unique_name_in_owner = true

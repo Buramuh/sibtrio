@@ -26,7 +26,7 @@ layer_2/tile_data = PackedInt32Array(-131077, 393216, 2, -131076, 393216, 2)
 [node name="NPC" parent="." index="1" instance=ExtResource("5_ps6mf")]
 
 [node name="Enemy" parent="Enemies" index="0" instance=ExtResource("4_fan3w")]
-position = Vector2(-53, 32)
+position = Vector2(-94, 51)
 
 [node name="Player" parent="." index="4"]
 position = Vector2(40, 1)
