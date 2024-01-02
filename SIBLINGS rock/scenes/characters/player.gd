@@ -43,6 +43,9 @@ func hit(damage):
 	
 func perish():
 	print("DEAD")
+	const game_over = "res://scenes/UI/game_over.tscn"
+	get_tree().change_scene_to_file(game_over)
+
 	visible = false
 
 func handle_input():

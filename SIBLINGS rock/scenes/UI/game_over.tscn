@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqmx0gu16efer"]
+[gd_scene load_steps=2 format=3 uid="uid://c70wfoh7ncewy"]
 
-[ext_resource type="Script" path="res://scenes/UI/start_screen.gd" id="1_venif"]
+[ext_resource type="Script" path="res://GAME OVER.gd" id="1_12o34"]
 
-[node name="StartScreen" type="CanvasLayer"]
-script = ExtResource("1_venif")
+[node name="Game over" type="CanvasLayer"]
+script = ExtResource("1_12o34")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8
@@ -11,14 +11,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -42.0
-offset_top = -26.0
-offset_right = 42.0
-offset_bottom = 26.0
+offset_left = -46.0
+offset_top = -13.0
+offset_right = 46.0
+offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "WELCOME,
-NOW STAY"
+text = "GAME OVER"
 
 [node name="Button" type="Button" parent="."]
 anchors_preset = 7
@@ -26,12 +25,12 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -62.5
-offset_top = -177.0
-offset_right = 62.5
-offset_bottom = -103.0
+offset_left = -28.0
+offset_top = -115.0
+offset_right = 28.0
+offset_bottom = -84.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "START TO QUIT"
+text = "RETRY"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
