@@ -4,14 +4,12 @@ extends CharacterBody2D
 var original_color = Color("#d60000")
 
 signal laser(pos, direction)
-var hitbox_scene: PackedScene = preload("res://scenes/effects/enemy_attack.tscn")
+var hitbox_scene: PackedScene = preload("res://scenes/effects/enemy_projectile.tscn")
 var can_attack: bool = true
 
 func hit(damage):
 	health -= damage
-
 	var new_color = Color("#ffb1a5")
-	
 	var tween = create_tween()
 	tween.tween_property($".", "modulate", new_color, 0.25)
 	tween.chain().tween_property($".", "modulate", original_color, 0.25)
