@@ -13,4 +13,3 @@ func _on_timer_timeout():
 
 func _process(delta):
 	position += direction  * speed * delta
-

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal primary_attack(pos, direction)
+signal secondary_attack(pos, direction)
 
 @export var max_health: int = 10
 @export var health:int = 10
@@ -12,7 +13,7 @@ var original_color = Color("#ffffff")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	equipped_item = load("res://scenes/equipment/keyboard.tscn").instantiate()
+	equipped_item = load("res://scenes/equipment/wielded_item.tscn").instantiate()
 	$HandsCenter.add_child(equipped_item)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,7 +33,6 @@ func hit(damage):
 	health -= damage
 
 	var new_color = Color("#ffb1a5")
-	
 	var tween = create_tween()
 	tween.tween_property($".", "modulate", new_color, 0.25)
 	tween.chain().tween_property($".", "modulate", original_color, 0.25)
@@ -45,17 +45,15 @@ func perish():
 	const game_over = "res://scenes/UI/game_over.tscn"
 	get_tree().change_scene_to_file(game_over)
 
-	visible = false
-
 func handle_input():
-	
+	# Get directional vectors and facing
 	var direction = Input.get_vector("left", "right", "up", "down")
 	if direction != Vector2(0,0):
 		facing = direction
 	
 	velocity = direction * speed
 	move_and_slide()
-	#Set raycast to direction faced and get first object found
+	# Set raycast to direction faced and get first object found
 	
 	# HANDLE INPUT
 	#---Set animation based on moevement
@@ -75,9 +73,12 @@ func handle_input():
 		var attack_facing = $HandsCenter.rotation_degrees
 		var attack_node = equipped_item.primary(attack_facing)
 		primary_attack.emit(attack_node)
-		print("Primary Action")
 
 	if Input.is_action_just_pressed("secondary action"):
+		var attack_facing = $HandsCenter.rotation_degrees
+		var attack_node = equipped_item.secondary(attack_facing)
+		secondary_attack.emit(attack_node)
+
 		print("Secondary Action!")
 		
 	if Input.is_action_just_pressed("Interact"):

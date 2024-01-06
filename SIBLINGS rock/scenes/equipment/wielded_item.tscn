@@ -1,17 +1,36 @@
-[gd_scene load_steps=2 format=3 uid="uid://cu17lw76anqkk"]
+[gd_scene load_steps=5 format=3 uid="uid://c7m013iy7dk2e"]
 
 [ext_resource type="Script" path="res://scenes/equipment/wielded_item.gd" id="1_5iml6"]
+[ext_resource type="Texture2D" uid="uid://dkhnkd3vfif6m" path="res://assets/item/white.png" id="2_2ld3w"]
+
+[sub_resource type="Animation" id="Animation_vhsd7"]
+resource_name = "Swing"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_44t24"]
+_data = {
+"Swing": SubResource("Animation_vhsd7")
+}
 
 [node name="Wielded Item" type="Area2D"]
+position = Vector2(13, 0)
+rotation = -1.13446
 script = ExtResource("1_5iml6")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_44t24")
+}
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.564706, 0.564706, 0.564706, 1)
+position = Vector2(3.72804, 0)
+scale = Vector2(0.0723031, -0.0192314)
+texture = ExtResource("2_2ld3w")
 
 [node name="AttackMarkers" type="Node2D" parent="."]
-position = Vector2(8, 8)
+position = Vector2(5.04871, 6.86346)
 rotation = -0.785397
 scale = Vector2(0.072, 0.0240964)
 
 [node name="Marker2D" type="Marker2D" parent="AttackMarkers"]
+position = Vector2(-18.6218, -63.2809)

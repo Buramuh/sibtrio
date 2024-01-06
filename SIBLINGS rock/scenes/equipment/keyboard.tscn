@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6n0k5dhs6gn8"]
+[gd_scene load_steps=5 format=3 uid="uid://ctnqjtnj0gxli"]
 
-[ext_resource type="PackedScene" uid="uid://cu17lw76anqkk" path="res://scenes/equipment/wielded_item.tscn" id="1_6cgpw"]
+[ext_resource type="PackedScene" uid="uid://c7m013iy7dk2e" path="res://scenes/equipment/wielded_item.tscn" id="1_6cgpw"]
 [ext_resource type="Script" path="res://scenes/equipment/keyboard.gd" id="2_1tr68"]
-[ext_resource type="Texture2D" uid="uid://dkhnkd3vfif6m" path="res://assets/item/white.png" id="2_m8uv0"]
 
 [sub_resource type="Animation" id="Animation_vhsd7"]
 resource_name = "Swing"
@@ -13,8 +12,6 @@ _data = {
 }
 
 [node name="Keyboard" instance=ExtResource("1_6cgpw")]
-position = Vector2(13, 0)
-rotation = -1.13446
 script = ExtResource("2_1tr68")
 
 [node name="AnimationPlayer" parent="." index="0"]
@@ -23,13 +20,5 @@ libraries = {
 }
 
 [node name="Sprite2D" parent="." index="1"]
-modulate = Color(0.564706, 0.564706, 0.564706, 1)
-position = Vector2(3.72804, 0)
-scale = Vector2(0.0723031, -0.0192314)
-texture = ExtResource("2_m8uv0")
-
-[node name="AttackMarkers" parent="." index="2"]
-position = Vector2(5.04871, 6.86346)
-
-[node name="Marker2D" parent="AttackMarkers" index="0"]
-position = Vector2(-18.6218, -63.2809)
+modulate = Color(0.054902, 0.054902, 0.054902, 1)
+scale = Vector2(0.0372115, -0.0198696)

@@ -73,3 +73,7 @@ Interact={
 2d_physics/layer_4="Interactables"
 2d_physics/layer_5="Zones"
 2d_physics/layer_6="Projectiles"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

@@ -20,3 +20,6 @@ func primary(facing):
 	
 	#$Hitboxes.add_child(attack)
 	return attack
+
+func secondary(facing):
+	print("secondary action")
