@@ -36,7 +36,7 @@ func set_speaker(new_value):
 func set_content(new_value):
 	message = new_value
 	$ColorRect/Content.text = new_value
-	
+
 #sets the response with the value received from NPC
 func set_reply(new_value):
 	response = new_value

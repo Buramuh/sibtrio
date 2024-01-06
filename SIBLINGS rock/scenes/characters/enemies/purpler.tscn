@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2u8wyw1lyc51"]
+
+[ext_resource type="PackedScene" uid="uid://0l32dm23nbx" path="res://scenes/characters/enemies/enemy.tscn" id="1_fb4wb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g562p"]
+size = Vector2(78, 16)
+
+[node name="Purpler" instance=ExtResource("1_fb4wb")]
+modulate = Color(0.72549, 0.129412, 0.639216, 1)
+health = 3
+speed = 200
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_g562p")
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+scale = Vector2(-0.31745, 0.0695995)

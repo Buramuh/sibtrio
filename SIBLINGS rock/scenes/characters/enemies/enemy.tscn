@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dkhnkd3vfif6m" path="res://assets/item/white.png" id="2_hs7ty"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5yi3g"]
-size = Vector2(44, 44)
+size = Vector2(38, 44)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_msspj"]
 animations = [{

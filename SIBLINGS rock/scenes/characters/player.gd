@@ -24,9 +24,8 @@ func _process(_delta):
 		else:
 			$HandsCenter.scale = Vector2(1, 1)
 		$HandsCenter.look_at(get_global_mouse_position())
-
-		
-		
+		#Adjust raycast
+		$RayCast2D.target_position = facing * 25		
 		handle_input()
 
 func hit(damage):
@@ -49,6 +48,7 @@ func perish():
 	visible = false
 
 func handle_input():
+	
 	var direction = Input.get_vector("left", "right", "up", "down")
 	if direction != Vector2(0,0):
 		facing = direction
@@ -81,10 +81,8 @@ func handle_input():
 		print("Secondary Action!")
 		
 	if Input.is_action_just_pressed("Interact"):
-					#Set Raycast direction
-		$RayCast2D.target_position = facing * 25	
+		#Get item before raycast
 		var thing_in_front = $RayCast2D.get_collider()
-	
 		if $DialogPopup.visible:
 			$DialogPopup.advance_dialogue()
 		elif thing_in_front != null:
