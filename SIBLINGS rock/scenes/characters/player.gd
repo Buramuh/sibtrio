@@ -17,21 +17,45 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if health > 0:
+		#Move hands to mouse
+		if get_global_mouse_position().x < global_position.x:
+			$HandsCenter.scale = Vector2(1, -1)
+		else:
+			$HandsCenter.scale = Vector2(1, 1)
+		$HandsCenter.look_at(get_global_mouse_position())
+		#Adjust raycast
+		$RayCast2D.target_position = facing * 25		
+		handle_input()
+
+func hit(damage):
+	health -= damage
+
+	var new_color = Color("#ffb1a5")
+	
+	var tween = create_tween()
+	tween.tween_property($".", "modulate", new_color, 0.25)
+	tween.chain().tween_property($".", "modulate", original_color, 0.25)
+
+	if health <= 0:
+		perish()
+	
+func perish():
+	print("DEAD")
+	const game_over = "res://scenes/UI/game_over.tscn"
+	get_tree().change_scene_to_file(game_over)
+
+	visible = false
+
+func handle_input():
+	
 	var direction = Input.get_vector("left", "right", "up", "down")
-	if direction != Vector2(0, 0):
+	if direction != Vector2(0,0):
 		facing = direction
+	
 	velocity = direction * speed
-	#Set raycast to direction faced and get first object found
-	$RayCast2D.target_position = facing * 25
-	var thing_in_front = $RayCast2D.get_collider()
-	
-	if get_global_mouse_position().x < global_position.x:
-		$HandsCenter.scale = Vector2(1, -1)
-	else:
-		$HandsCenter.scale = Vector2(1, 1)
-	$HandsCenter.look_at(get_global_mouse_position())
-	
 	move_and_slide()
+	#Set raycast to direction faced and get first object found
 	
 	# HANDLE INPUT
 	#---Set animation based on moevement
@@ -57,22 +81,10 @@ func _process(_delta):
 		print("Secondary Action!")
 		
 	if Input.is_action_just_pressed("Interact"):
-		if %DialogPopup.visible:
-			%DialogPopup.advance_dialogue()
+		#Get item before raycast
+		var thing_in_front = $RayCast2D.get_collider()
+		if $DialogPopup.visible:
+			$DialogPopup.advance_dialogue()
 		elif thing_in_front != null:
 			if thing_in_front.is_in_group("NPC"):
 				thing_in_front.interact($".")
-
-
-func hit(damage):
-	health -= damage
-
-	var new_color = Color("#ffb1a5")
-	
-	var tween = create_tween()
-	tween.tween_property($".", "modulate", new_color, 0.25)
-	tween.chain().tween_property($".", "modulate", original_color, 0.25)
-
-	if health <= 0:
-		print("dead")
-	

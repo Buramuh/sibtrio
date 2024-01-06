@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://ddbxm5ghhya1g" path="res://scenes/characters/player.tscn" id="3_x23jw"]
 
 [node name="World" type="Node2D"]
-scale = Vector2(3, 3)
 script = ExtResource("1_gq56t")
 metadata/_edit_lock_ = true
 
@@ -23,11 +22,16 @@ layer_1/y_sort_origin = 0
 layer_1/z_index = 0
 layer_1/tile_data = PackedInt32Array()
 
+[node name="NPCs" type="Node2D" parent="."]
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Attacks" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("3_x23jw")]
 metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(3, 3)
 
 [connection signal="primary_attack" from="Player" to="." method="_on_player_primary_attack"]

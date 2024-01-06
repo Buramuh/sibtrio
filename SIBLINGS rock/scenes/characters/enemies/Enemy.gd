@@ -27,7 +27,11 @@ func _process(_delta):
 	var direction: Vector2 = (player_location - global_position).normalized()
 	velocity = direction * speed
 	move_and_slide()
-	attack(direction)
+	if can_attack == true:
+		attack(direction)
+		can_attack = false
+		$AttackCooldown.start()
+		
 
 func attack(direction):
 	#Making the hitbox
@@ -45,3 +49,7 @@ func attack(direction):
 		attacks_node.add_child(attack)
 	else:
 		print("Error: Attacks node not found.")
+
+
+func _on_attack_cooldown_timeout():
+	can_attack =true
